@@ -3,12 +3,15 @@ package runCommand
 import (
 	"fmt"
 	"testing"
+
+	"github.com/JieanYang/HelloWorldGoAgent/src/logger"
 )
 
-func TestMain(t *testing.T) {
-	fmt.Println("Start test - main.go")
+func TestRunCommand(t *testing.T) {
+	fmt.Println("Start test - runCommand.go")
+	logger.Log(("yang"))
 
 	main()
 
-	fmt.Println("End test - main.go")
+	fmt.Println("End test - runCommand.go")
 }
