@@ -13,7 +13,8 @@ func StartHttp() {
 	wg.Add(1)
 	go func() {
 		http.HandleFunc("/", agentHttpController.HomeController)
-		http.HandleFunc("/runCommand", agentHttpController.RunCommandControllerWithFormData)
+		http.HandleFunc("/runCommandWithFormData", agentHttpController.RunCommandWithFormData)
+		http.HandleFunc("/runCommandWithBody", agentHttpController.RunCommandWithBody)
 
 		err := http.ListenAndServe(":9001", nil) // Block code
 		if err != nil {
