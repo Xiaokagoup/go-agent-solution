@@ -5,7 +5,7 @@ import (
 	"os/exec"
 )
 
-func main() {
+func runCommand() {
 
 	cmd := exec.Command("sh", "-c", "./script.sh")
 	output, err := cmd.CombinedOutput()
