@@ -28,6 +28,10 @@ func RunCommandWithFormData(w http.ResponseWriter, r *http.Request) {
 
 }
 
+type Reponse struct {
+	Results string
+}
+
 func RunCommandWithBody(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 		var body struct{ Name string }
@@ -38,10 +42,16 @@ func RunCommandWithBody(w http.ResponseWriter, r *http.Request) {
 		}
 
 		output := runCommand.RunCommand()
-		// outputString := string(output)
+
+		resultsObj := Reponse{Results: string(output)}
+		data, err := json.Marshal(resultsObj)
+		if err != nil {
+			http.Error(w, "Error generate JSON reuslts", http.StatusBadRequest)
+			return
+		}
 
 		w.Header().Set("Content-Type", "application/json")
-		w.Write(output)
+		w.Write(data)
 
 		// fmt.Fprintf(w, "<h1>Hello, %s</h1>", body.Name)
 	} else {
