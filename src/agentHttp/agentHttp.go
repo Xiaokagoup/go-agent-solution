@@ -3,6 +3,8 @@ package agentHttp
 import (
 	"net/http"
 	"sync"
+
+	agentHttpController "github.com/JieanYang/HelloWorldGoAgent/src/agentHttp/agentHttpController"
 )
 
 func StartHttp() {
@@ -10,7 +12,7 @@ func StartHttp() {
 
 	wg.Add(1)
 	go func() {
-		http.HandleFunc("/", rootHandler)
+		http.HandleFunc("/", agentHttpController.HomeCtroller)
 
 		err := http.ListenAndServe(":9001", nil) // Block code
 		if err != nil {
