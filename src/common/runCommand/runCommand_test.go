@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/JieanYang/HelloWorldGoAgent/src/logger"
+	"github.com/JieanYang/HelloWorldGoAgent/src/common/logger"
 )
 
 func TestRunCommand(t *testing.T) {
