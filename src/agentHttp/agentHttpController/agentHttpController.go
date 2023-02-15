@@ -5,6 +5,10 @@ import (
 	"net/http"
 )
 
-func HomeCtroller(w http.ResponseWriter, r *http.Request) {
+func HomeController(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "<h1>Go - Hello World</h1>")
+}
+
+func RunCommandController(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "<h1>Go - Run command</h1>")
 }
