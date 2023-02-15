@@ -5,9 +5,10 @@ import (
 	"os/exec"
 )
 
-func runCommand() {
+func RunCommand() []byte {
 
-	cmd := exec.Command("sh", "-c", "./script.sh")
+	fmt.Println("RunCommand mobule")
+	cmd := exec.Command("sh", "-c", "/Users/jieanyang/Documents/freelancer_work/ansys/HelloWorldGoAgent/src/common/runCommand/script.sh")
 	output, err := cmd.CombinedOutput()
 
 	if err != nil {
@@ -15,4 +16,6 @@ func runCommand() {
 	} else {
 		fmt.Printf("Script output: %s\n", output)
 	}
+
+	return output
 }

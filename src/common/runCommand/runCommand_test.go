@@ -11,7 +11,7 @@ func TestRunCommand(t *testing.T) {
 	fmt.Println("Start test - runCommand.go")
 	logger.Log(("yang"))
 
-	runCommand()
+	RunCommand()
 
 	fmt.Println("End test - runCommand.go")
 }
