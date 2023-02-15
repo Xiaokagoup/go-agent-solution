@@ -32,5 +32,8 @@ func (agent *Agent) Start() error {
 	agent.state = Running
 	fmt.Println("Start - agent", agent.state)
 
+	for {
+	}
+
 	return nil
 }

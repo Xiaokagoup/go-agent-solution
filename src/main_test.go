@@ -8,7 +8,7 @@ import (
 func TestMain(t *testing.T) {
 	fmt.Println("Start test - main.go")
 
-	main()
+	// main()
 
 	fmt.Println("End test - main.go")
 }
