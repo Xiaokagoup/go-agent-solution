@@ -1,6 +1,9 @@
 package agent
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 const (
 	Waiting = iota
@@ -19,4 +22,15 @@ func NewAgent() *Agent {
 	}
 
 	return &agent
+}
+
+func (agent *Agent) Start() error {
+	if agent.state != Waiting {
+		return WrongStateError
+	}
+
+	agent.state = Running
+	fmt.Println("Start - agent", agent.state)
+
+	return nil
 }
