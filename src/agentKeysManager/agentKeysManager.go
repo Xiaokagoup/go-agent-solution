@@ -10,6 +10,12 @@ import (
 
 const keyFile = "keys.bin"
 
+// type Key struct {
+// 	Type      string
+// 	Value     string
+// 	ExpiresAt time.Time
+// }
+
 func generateKey() []byte {
 	// Generate a random key of 32 bytes
 	key := make([]byte, 32)
