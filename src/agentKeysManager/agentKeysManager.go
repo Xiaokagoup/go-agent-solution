@@ -1,4 +1,4 @@
-package agentkeys
+package agentKeysManager
 
 import (
 	"bytes"
