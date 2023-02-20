@@ -7,14 +7,31 @@ import (
 	"net/http"
 
 	"github.com/JieanYang/HelloWorldGoAgent/src/tools/runCommand"
+	"github.com/gin-gonic/gin"
 )
 
 type Reponse struct {
 	Results string
 }
 
-func HomeController(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "<h1>Go - Hello World</h1>")
+type RequestData struct {
+	Value string `json:"value"`
+	Name  string `json:"name"`
+}
+
+func HomeGetController(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"message": "pong",
+	})
+}
+func HomePostController(c *gin.Context) {
+	var reqData RequestData
+	if err := c.ShouldBindJSON(&reqData); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"results": reqData})
 }
 
 // func RunCommandWithFormData(w http.ResponseWriter, r *http.Request) {
