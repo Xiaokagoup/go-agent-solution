@@ -16,6 +16,10 @@ const keyFile = "keys.bin"
 // 	ExpiresAt time.Time
 // }
 
+func main() {
+	fmt.Println("run main in agentKeysManager.go")
+}
+
 func generateKey() []byte {
 	// Generate a random key of 32 bytes
 	key := make([]byte, 32)
