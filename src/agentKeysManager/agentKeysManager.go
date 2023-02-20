@@ -1,26 +1,85 @@
 package agentKeysManager
 
 import (
-	"bytes"
 	"crypto/rand"
+	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"os"
+	"time"
 )
 
-const keyFile = "keys.bin"
+const keyFileName = "keys.bin"
 
-// type Key struct {
-// 	Type      string
-// 	Value     string
-// 	ExpiresAt time.Time
-// }
+const (
+	AuthKey = iota
+	TransferKey
+	SessionKey
+)
+
+func getKeyType(key Key) string {
+	switch key.Type {
+	case AuthKey:
+		return "AuthKey"
+	case TransferKey:
+		return "TransferKey"
+	case SessionKey:
+		return "SessionKey"
+	default:
+		return "Unknown Key Type"
+	}
+}
+
+type Key struct {
+	Type      int
+	Value     string
+	ExpiresAt time.Time
+}
 
 func main() {
 	fmt.Println("run main in agentKeysManager.go")
+
+	currentKeys := []Key{}
+
+	oneKey := generateKey(AuthKey)
+	fmt.Println("oneKey", oneKey)
+	fmt.Printf("oneKey type %T\n", oneKey)
+
+	currentKeys = append(currentKeys, oneKey)
+	fmt.Println("currentKeys", currentKeys)
+
+	saveKeysInFile(currentKeys, keyFileName)
+
+	var currentKeysFromFile, _ = loadKeys(keyFileName)
+	fmt.Println("currentKeysFromFile", currentKeysFromFile)
+
 }
 
-func generateKey() []byte {
+func loadKeys(keyFileName string) ([]Key, error) {
+	// Read the keys from the key file
+	data, err := ioutil.ReadFile(keyFileName)
+	if err != nil {
+		return nil, fmt.Errorf("Error reading keys from file: %v", err)
+	}
+
+	// Parsethe keys from the data
+	var keys []Key
+	err = json.Unmarshal(data, &keys)
+
+	return keys, nil
+}
+
+func containKey(currentKeys []Key, key Key) bool {
+	for _, k := range currentKeys {
+		if k.Value == key.Value {
+			return true
+		}
+	}
+	return false
+}
+
+func generateKey(keyType int) Key {
 	// Generate a random key of 32 bytes
 	key := make([]byte, 32)
 	_, err := rand.Read(key)
@@ -28,96 +87,43 @@ func generateKey() []byte {
 		fmt.Println("Error generating key:", err)
 		os.Exit(1)
 	}
-	return key
-}
-
-func generateKeys(num int) [][]byte {
-	// Generate [num] random keys of 32 bytes each
-	keys := make([][]byte, num)
-	for i := range keys {
-		key := generateKey()
-		keys[i] = key
+	return Key{
+		Type:      keyType,
+		Value:     base64.StdEncoding.EncodeToString(key),
+		ExpiresAt: time.Now().Add(time.Hour * 24),
 	}
-	return keys
 }
 
-func addKeyArray(keys [][]byte, key []byte) [][]byte {
-	return append(keys, key)
-}
-
-func deleteKeyArray(keys [][]byte, index int) [][]byte {
-	return append(keys[:index], keys[index+1:]...)
-}
-
-func loadKeys(keyFile string) ([][]byte, error) {
-	// Read the keys from the key file
-	data, err := ioutil.ReadFile(keyFile)
-	if err != nil {
-		return nil, fmt.Errorf("Error reading keys from file: %v", err)
+func addKey(currentKeys []Key, addedKey Key) []Key {
+	if !containKey(currentKeys, addedKey) {
+		nextKeys := append(currentKeys, addedKey)
+		return nextKeys
 	}
-
-	// Parsethe keys from the data
-	keys := [][]byte{}
-	for i := 0; i < len(data); i += 32 {
-		key := data[i : i+32]
-		keys = append(keys, key)
-	}
-	return keys, nil
+	return currentKeys
 }
 
-func containKey(keys [][]byte, key []byte, keyFile string) bool {
-	for _, k := range keys {
-		if bytes.Equal(k, key) {
-			return true
+func deleteKey(currentKeys []Key, deletedKey Key) []Key {
+	for i, k := range currentKeys {
+		if k == deletedKey {
+			nextKeys := append(currentKeys[:i], currentKeys[i+1:]...)
+			return nextKeys
 		}
 	}
-	return false
+	return currentKeys
 }
 
-func saveKeys(newKeys [][]byte, keyFile string) error {
-	// // Load the existing keys from the file
-	// existingKeys, err := loadKeys(keyFile)
-	// if err != nil {
-	// 	return err
-	// }
-
-	// // Add the new keys to the existing keys
-	// for _, oneNewKey := range newKeys {
-	// 	// Check if the key already exists
-	// 	if !containsKey(existingKeys, oneNewKey,key) {
-	// 		existingKeys = agent
-	// 	}
-	// }
-
-	// write the keys to the key file
-	data := []byte{}
-	for _, key := range newKeys {
-		data = append(data, key...)
+func saveKeysInFile(newKeys []Key, keyFileName string) error {
+	// Convert the keys to JSON
+	data, err := json.Marshal(newKeys)
+	if err != nil {
+		return fmt.Errorf("Error converting keys to JSON: %v", err)
 	}
-	err := ioutil.WriteFile(keyFile, data, 0644)
+
+	// Write the keys to the key file
+	err = ioutil.WriteFile(keyFileName, data, 0644)
 	if err != nil {
 		return fmt.Errorf("Error writing keys to the file: %v", err)
 	}
+
 	return nil
-}
-
-func saveNewKeysInFile(key []byte, keyFile string) error {
-	// load the existing keys from the file
-	keys, err := loadKeys(keyFile)
-	if err != nil {
-		return err
-	}
-
-	// Check if the key already exists
-	for _, k := range keys {
-		if bytes.Equal(k, key) {
-			return nil
-		}
-	}
-
-	// Add the new key
-	keys = append(keys, key)
-
-	// Save the modified keys back to the file
-	return saveKeys(keys, keyFile)
 }
