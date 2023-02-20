@@ -7,19 +7,37 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type RequestData struct {
+	Value string `json:"value"`
+	Name  string `json:"name"`
+}
+
 func StartHttp() {
 	wg := new(sync.WaitGroup)
 
 	wg.Add(1)
 	go func() {
-		r := gin.Default()
-		r.GET("/ping", func(c *gin.Context) {
+		router := gin.Default()
+
+		router.GET("/", func(c *gin.Context) {
 			c.JSON(http.StatusOK, gin.H{
 				"message": "pong",
 			})
 		})
-		r.Run(":9001")
 
+		// RunCommand
+		router.POST("/", func(c *gin.Context) {
+			var reqData RequestData
+			if err := c.ShouldBindJSON(&reqData); err != nil {
+				c.JSON(400, gin.H{"error": err.Error()})
+				return
+			}
+
+			c.JSON(http.StatusOK, gin.H{"results": reqData})
+		})
+
+		// Run http web service
+		router.Run(":9001")
 		wg.Done()
 
 		// http.HandleFunc("/", agentHttpController.HomeController)
