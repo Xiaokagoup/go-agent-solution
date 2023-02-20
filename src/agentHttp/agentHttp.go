@@ -17,7 +17,9 @@ func StartHttp() {
 		router.GET("/", agentHttpController.HomeGetController)
 		router.POST("/", agentHttpController.HomePostController)
 
-		// RunCommand
+		// RunCommand - with session key
+		router.POST("/RunCommandByScriptContent", agentHttpController.RunCommandByScriptContent)
+		router.POST("/RunCommandWithUrl", agentHttpController.RunCommandByUrl)
 
 		// Run http web service
 		router.Run(":9001")
