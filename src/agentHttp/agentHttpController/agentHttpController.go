@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/JieanYang/HelloWorldGoAgent/src/common/runCommand"
+	"github.com/JieanYang/HelloWorldGoAgent/src/tools/runCommand"
 )
 
 type Reponse struct {
