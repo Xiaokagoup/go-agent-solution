@@ -15,6 +15,13 @@ func StartHttp() {
 		http.HandleFunc("/", agentHttpController.HomeController)
 		// http.HandleFunc("/RunCommandWithFormData", agentHttpController.RunCommandWithFormData)
 		// http.HandleFunc("/RunCommandWithBody", agentHttpController.RunCommandWithBody)
+
+		// Auth
+		http.HandleFunc("/auth/authenticateByAuthKey", agentHttpController.HomeController)
+		http.HandleFunc("/auth/generateTransferKeyByAuthKey", agentHttpController.HomeController)
+		http.HandleFunc("/auth/generateSessionKeyByTransferKey", agentHttpController.HomeController)
+
+		// RunCommand - with session key
 		http.HandleFunc("/RunCommandByScriptContent", agentHttpController.RunCommandByScriptContent)
 		http.HandleFunc("/RunCommandWithUrl", agentHttpController.RunCommandByUrl)
 

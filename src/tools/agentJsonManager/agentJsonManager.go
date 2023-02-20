@@ -18,7 +18,7 @@ func main() {
 	fileName := "metadata.json"
 
 	metadatas := Metadata{
-		ClientId:      "2",
+		ClientId:      "3",
 		CloudProvider: "AWS",
 		Region:        "eu-west-3",
 		NodeType:      "t2.micro",
