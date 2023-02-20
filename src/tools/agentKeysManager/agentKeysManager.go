@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-const keyFileName = "keys.bin"
+const keyFileName = "keys.json"
 
 const (
 	AuthKey = iota
@@ -42,17 +42,34 @@ func main() {
 
 	currentKeys := []Key{}
 
-	oneKey := generateKey(AuthKey)
-	fmt.Println("oneKey", oneKey)
-	fmt.Printf("oneKey type %T\n", oneKey)
+	firstKey := generateKey(AuthKey)
+	fmt.Println("firstKey", firstKey)
+	fmt.Printf("firstKey type %T\n", firstKey)
 
-	currentKeys = append(currentKeys, oneKey)
+	currentKeys = append(currentKeys, firstKey)
 	fmt.Println("currentKeys", currentKeys)
 
 	saveKeysInFile(currentKeys, keyFileName)
 
-	var currentKeysFromFile, _ = loadKeys(keyFileName)
+	currentKeysFromFile, _ := loadKeys(keyFileName)
 	fmt.Println("currentKeysFromFile", currentKeysFromFile)
+
+	secondKey := generateKey(AuthKey)
+	fmt.Println("secondKey", secondKey)
+	fmt.Printf("secondKey type %T\n", secondKey)
+
+	nextKeys := addKey(currentKeysFromFile, secondKey)
+	fmt.Println("nextKeys", nextKeys)
+
+	fmt.Println("====================================")
+
+	currentKeys, _ = saveKeysInFile(nextKeys, keyFileName)
+	fmt.Println("before deleteKey", len(currentKeys))
+	currentKeysAfterDelete := deleteKey(currentKeys, firstKey)
+	fmt.Println("currentKeysAfterDelete", len(currentKeysAfterDelete))
+	currentKeys, _ = saveKeysInFile(currentKeysAfterDelete, keyFileName)
+
+	fmt.Println("====================================")
 
 }
 
@@ -103,8 +120,14 @@ func addKey(currentKeys []Key, addedKey Key) []Key {
 }
 
 func deleteKey(currentKeys []Key, deletedKey Key) []Key {
+	isEqualKey := func(a Key, b Key) bool {
+		return a.Type == b.Type && a.Value == b.Value
+	}
 	for i, k := range currentKeys {
-		if k == deletedKey {
+		fmt.Println("i", i)
+		fmt.Println("k", k)
+		fmt.Println("isEqualKey(k, deletedKey)", isEqualKey(k, deletedKey))
+		if isEqualKey(k, deletedKey) {
 			nextKeys := append(currentKeys[:i], currentKeys[i+1:]...)
 			return nextKeys
 		}
@@ -112,18 +135,18 @@ func deleteKey(currentKeys []Key, deletedKey Key) []Key {
 	return currentKeys
 }
 
-func saveKeysInFile(newKeys []Key, keyFileName string) error {
+func saveKeysInFile(newKeys []Key, keyFileName string) ([]Key, error) {
 	// Convert the keys to JSON
 	data, err := json.Marshal(newKeys)
 	if err != nil {
-		return fmt.Errorf("Error converting keys to JSON: %v", err)
+		return nil, fmt.Errorf("Error converting keys to JSON: %v", err)
 	}
 
 	// Write the keys to the key file
 	err = ioutil.WriteFile(keyFileName, data, 0644)
 	if err != nil {
-		return fmt.Errorf("Error writing keys to the file: %v", err)
+		return nil, fmt.Errorf("Error writing keys to the file: %v", err)
 	}
 
-	return nil
+	return newKeys, nil
 }
