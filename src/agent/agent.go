@@ -3,6 +3,8 @@ package agent
 import (
 	"errors"
 	"fmt"
+
+	agtHttp "github.com/JieanYang/HelloWorldGoAgent/src/agentHttp"
 )
 
 const (
@@ -32,8 +34,7 @@ func (agent *Agent) Start() error {
 	agent.state = Running
 	fmt.Println("Start - agent", agent.state)
 
-	for {
-	}
+	agtHttp.StartHttp()
 
 	return nil
 }

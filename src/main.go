@@ -3,15 +3,14 @@ package main
 import (
 	"fmt"
 
-	// agt "github.com/JieanYang/HelloWorldGoAgent/src/agent"
-	agtHttp "github.com/JieanYang/HelloWorldGoAgent/src/agentHttp"
+	agt "github.com/JieanYang/HelloWorldGoAgent/src/agent"
 )
 
 func main() {
 
 	fmt.Println("Hello World !")
-	// agent := agt.NewAgent()
-	agtHttp.StartHttp()
-	// agent.Start()
+	agent := agt.NewAgent()
+
+	agent.Start()
 
 }
