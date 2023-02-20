@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"sync"
 
-	agentHttpController "github.com/JieanYang/HelloWorldGoAgent/src/agentHttp/agentHttpController"
+	"github.com/gin-gonic/gin"
 )
 
 func StartHttp() {
@@ -12,24 +12,33 @@ func StartHttp() {
 
 	wg.Add(1)
 	go func() {
-		http.HandleFunc("/", agentHttpController.HomeController)
-		// http.HandleFunc("/RunCommandWithFormData", agentHttpController.RunCommandWithFormData)
-		// http.HandleFunc("/RunCommandWithBody", agentHttpController.RunCommandWithBody)
+		r := gin.Default()
+		r.GET("/ping", func(c *gin.Context) {
+			c.JSON(http.StatusOK, gin.H{
+				"message": "pong",
+			})
+		})
+		r.Run(":9001")
 
-		// Auth
-		http.HandleFunc("/auth/authenticateByAuthKey", agentHttpController.HomeController)
-		http.HandleFunc("/auth/generateTransferKeyByAuthKey", agentHttpController.HomeController)
-		http.HandleFunc("/auth/generateSessionKeyByTransferKey", agentHttpController.HomeController)
-
-		// RunCommand - with session key
-		http.HandleFunc("/RunCommandByScriptContent", agentHttpController.RunCommandByScriptContent)
-		http.HandleFunc("/RunCommandWithUrl", agentHttpController.RunCommandByUrl)
-
-		err := http.ListenAndServe(":9001", nil) // Block code
-		if err != nil {
-			panic(err)
-		}
 		wg.Done()
+
+		// http.HandleFunc("/", agentHttpController.HomeController)
+		// // http.HandleFunc("/RunCommandWithFormData", agentHttpController.RunCommandWithFormData)
+		// // http.HandleFunc("/RunCommandWithBody", agentHttpController.RunCommandWithBody)
+
+		// // Auth
+		// http.HandleFunc("/auth/authenticateByAuthKey", agentHttpController.HomeController)
+		// http.HandleFunc("/auth/generateTransferKeyByAuthKey", agentHttpController.HomeController)
+		// http.HandleFunc("/auth/generateSessionKeyByTransferKey", agentHttpController.HomeController)
+
+		// // RunCommand - with session key
+		// http.HandleFunc("/RunCommandByScriptContent", agentHttpController.RunCommandByScriptContent)
+		// http.HandleFunc("/RunCommandWithUrl", agentHttpController.RunCommandByUrl)
+
+		// err := http.ListenAndServe(":9001", nil) // Block code
+		// if err != nil {
+		// 	panic(err)
+		// }
 	}()
 
 	wg.Wait()
