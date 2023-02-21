@@ -13,4 +13,5 @@ func main() {
 
 	agent.Start()
 
+	// os.Exit(0) // Close agent
 }

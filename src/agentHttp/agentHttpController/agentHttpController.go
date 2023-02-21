@@ -21,7 +21,7 @@ type RequestData struct {
 
 func HomeGetController(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
-		"message": "pong",
+		"message": "pong yang",
 	})
 }
 func HomePostController(c *gin.Context) {

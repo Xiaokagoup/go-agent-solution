@@ -4,6 +4,7 @@ import (
 	"sync"
 
 	"github.com/JieanYang/HelloWorldGoAgent/src/agentHttp/agentHttpController"
+	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
 )
 
@@ -27,7 +28,7 @@ func StartHttp() {
 		router.POST("/RunCommandWithUrl", agentHttpController.RunCommandByUrl)
 
 		// Run http web service
-		router.Run(":9001")
+		endless.ListenAndServe(":9001", router)
 		wg.Done()
 	}()
 
