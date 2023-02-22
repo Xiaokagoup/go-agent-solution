@@ -1,4 +1,4 @@
-package agentJsonManager
+package agentMetadataManager
 
 import (
 	"encoding/json"
@@ -15,6 +15,7 @@ type Metadata struct {
 }
 
 func main() {
+	// Test function
 	fileName := "metadata.json"
 
 	metadatas := Metadata{
