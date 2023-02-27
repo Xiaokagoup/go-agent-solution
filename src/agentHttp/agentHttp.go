@@ -33,6 +33,9 @@ func StartHttp() {
 		router.POST("/RunCommandByScriptContent", agentHttpController.RunCommandByScriptContent)
 		router.POST("/RunCommandWithUrl", agentHttpController.RunCommandWithUrl)
 
+		// Exits agent
+		router.GET("/Exit", agentHttpController.Exit)
+
 		// Swagger
 		router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 

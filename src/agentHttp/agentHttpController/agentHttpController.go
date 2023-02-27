@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
+	"time"
 
 	"github.com/JieanYang/HelloWorldGoAgent/src/tools/runCommand"
 	"github.com/gin-gonic/gin"
@@ -107,4 +109,25 @@ func RunCommandWithUrl(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"results": data})
 
+}
+
+// @Summary Exit the agent
+// @Description Exit the agent
+// @Accept  json
+// @Produce  json
+// @Success 201 {string} string "The object was created successfully"
+// @Failure 400 {string} string "Invalid request body"
+// @Failure 500 {string} string "Failed to create object"
+// @Router /Exit [get]
+func Exit(c *gin.Context) {
+	fmt.Println("Exit API called")
+
+	time.AfterFunc(1*time.Second, func() {
+		os.Exit(0) // without error
+		// os.Exit(1) // with error
+	})
+
+	c.JSON(http.StatusOK, gin.H{"results": "ok"})
+
+	fmt.Println("End API called")
 }

@@ -30,6 +30,27 @@ info:
   title: HellowWorldGoAgent API
   version: "1.0"
 paths:
+  /Exit:
+    get:
+      consumes:
+      - application/json
+      description: Exit the agent
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: The object was created successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid request body
+          schema:
+            type: string
+        "500":
+          description: Failed to create object
+          schema:
+            type: string
+      summary: Exit the agent
   /RunCommandByScriptContent:
     post:
       consumes:
