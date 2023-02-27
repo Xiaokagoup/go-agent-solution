@@ -9,6 +9,7 @@ import (
 const (
 	Linux = iota
 	Windows
+	MacOS
 	Unknown
 )
 
@@ -20,6 +21,9 @@ func getOSName() int {
 	} else if os == "linux" {
 		fmt.Println("Linux operating system detected")
 		return Linux
+	} else if os == "darwin" {
+		fmt.Println("Mac operating system detected")
+		return MacOS
 	}
 	fmt.Printf("Unknown operating system: %s\n", os)
 	return Unknown
@@ -29,7 +33,7 @@ func RunCommand() []byte {
 
 	OSNameEnum := getOSName()
 
-	if OSNameEnum == Linux {
+	if OSNameEnum == Linux || OSNameEnum == MacOS {
 		fmt.Println("package runCommand - RunCommand - Linux")
 		cmd := exec.Command("sh", "-c", "/Users/jieanyang/Documents/freelancer_work/ansys/HelloWorldGoAgent/src/common/runCommand/script.sh")
 		output, err := cmd.CombinedOutput()
@@ -68,7 +72,7 @@ func RunCommandByScriptContent(scriptContent string) []byte {
 
 	fmt.Println("scriptContent", scriptContent)
 
-	if OSNameEnum == Linux {
+	if OSNameEnum == Linux || OSNameEnum == MacOS {
 		fmt.Println("package runCommand - RunCommandByContent - Linux")
 
 		cmd := exec.Command("sh", "-c", scriptContent)
@@ -79,6 +83,8 @@ func RunCommandByScriptContent(scriptContent string) []byte {
 		} else {
 			fmt.Printf("Script output: %s\n", output)
 		}
+
+		return output
 	}
 
 	if OSNameEnum == Windows {
