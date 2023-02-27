@@ -11,7 +11,7 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-// @title           Swagger Example API
+// @title           HellowWorldGoAgent API
 // @version         1.0
 // @description     This is a sample server celler server.
 // @termsOfService  http://swagger.io/terms/
@@ -24,7 +24,7 @@ import (
 // @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
 
 // @host      localhost:9001
-// @BasePath  /api/v1
+// @BasePath  /
 
 // @securityDefinitions.basic  BasicAuth
 

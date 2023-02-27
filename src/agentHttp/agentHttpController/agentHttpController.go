@@ -50,7 +50,7 @@ func HomePostController(c *gin.Context) {
 // @Success 201 {string} string "The object was created successfully"
 // @Failure 400 {string} string "Invalid request body"
 // @Failure 500 {string} string "Failed to create object"
-// @Router /RunCommandByScriptContent [post,options]
+// @Router /RunCommandByScriptContent [post]
 func RunCommandByScriptContent(c *gin.Context) {
 	var reqData RequestDataForRunCommandByScriptContent
 	if err := c.ShouldBindJSON(&reqData); err != nil {
@@ -75,7 +75,7 @@ func RunCommandByScriptContent(c *gin.Context) {
 // @Success 201 {string} string "The object was created successfully"
 // @Failure 400 {string} string "Invalid request body"
 // @Failure 500 {string} string "Failed to create object"
-// @Router /RunCommandWithUrl [post,options]
+// @Router /RunCommandWithUrl [post]
 func RunCommandWithUrl(c *gin.Context) {
 	var reqData RequestData
 	if err := c.ShouldBindJSON(&reqData); err != nil {
