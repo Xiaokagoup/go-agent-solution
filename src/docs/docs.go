@@ -9,7 +9,16 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "contact": {},
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.swagger.io/support",
+            "email": "support@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -121,17 +130,22 @@ const docTemplate = `{
                 }
             }
         }
+    },
+    "securityDefinitions": {
+        "BasicAuth": {
+            "type": "basic"
+        }
     }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
-	Host:             "",
-	BasePath:         "",
+	Version:          "1.0",
+	Host:             "*:9001",
+	BasePath:         "/",
 	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Title:            "HellowWorldGoAgent API",
+	Description:      "This is a sample server celler server.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

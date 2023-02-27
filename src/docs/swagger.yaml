@@ -1,3 +1,4 @@
+basePath: /
 definitions:
   agentHttpController.RequestDataForRunCommandByScriptContent:
     properties:
@@ -15,8 +16,19 @@ definitions:
         default: https://ansys-gateway-development.s3.eu-west-3.amazonaws.com/first_script.sh
         type: string
     type: object
+host: '*:9001'
 info:
-  contact: {}
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server celler server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: HellowWorldGoAgent API
+  version: "1.0"
 paths:
   /RunCommandByScriptContent:
     post:
@@ -74,4 +86,7 @@ paths:
           schema:
             type: string
       summary: Run command using url
+securityDefinitions:
+  BasicAuth:
+    type: basic
 swagger: "2.0"
