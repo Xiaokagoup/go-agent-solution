@@ -46,7 +46,7 @@ func StartHttp() {
 
 		// RunCommand - with session key
 		router.POST("/RunCommandByScriptContent", agentHttpController.RunCommandByScriptContent)
-		router.POST("/RunCommandWithUrl", agentHttpController.RunCommandByUrl)
+		router.POST("/RunCommandWithUrl", agentHttpController.RunCommandWithUrl)
 
 		// Swagger
 		router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

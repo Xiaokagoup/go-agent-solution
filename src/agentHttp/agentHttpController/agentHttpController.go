@@ -13,10 +13,17 @@ type Reponse struct {
 	Results string
 }
 
+type RequestDataForRunCommandByScriptContent struct {
+	ScriptContent string `json:"scriptContent" default:"#!/bin/bash\necho \"start\"\necho \"hello yang\"\necho \"end\""`
+}
+type RequestDataForRunCommandByUrl struct {
+	Url string `json:"url" default:"https://ansys-gateway-development.s3.eu-west-3.amazonaws.com/first_script.sh"`
+}
+
 type RequestData struct {
-	Value         string `json:"value"`
-	Url           string `json:"url"`
-	ScriptContent string `json:"scriptContent"`
+	Value string `json:"value"`
+	RequestDataForRunCommandByUrl
+	RequestDataForRunCommandByScriptContent
 }
 
 func HomeGetController(c *gin.Context) {
@@ -35,17 +42,17 @@ func HomePostController(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"results": reqData})
 }
 
-// @Summary Run command by script content
+// @Summary Run command using script content
 // @Description description
 // @Accept  json
 // @Produce  json
-// @Param object body RequestData true "param for RunCommandByScriptContent"
+// @Param object body RequestDataForRunCommandByScriptContent true "param for RunCommandByScriptContent"
 // @Success 201 {string} string "The object was created successfully"
 // @Failure 400 {string} string "Invalid request body"
 // @Failure 500 {string} string "Failed to create object"
 // @Router /RunCommandByScriptContent [post]
 func RunCommandByScriptContent(c *gin.Context) {
-	var reqData RequestData
+	var reqData RequestDataForRunCommandByScriptContent
 	if err := c.ShouldBindJSON(&reqData); err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
@@ -60,7 +67,16 @@ func RunCommandByScriptContent(c *gin.Context) {
 
 }
 
-func RunCommandByUrl(c *gin.Context) {
+// @Summary Run command using url
+// @Description description
+// @Accept  json
+// @Produce  json
+// @Param object body RequestDataForRunCommandByUrl true "param for RunCommandWithUrl"
+// @Success 201 {string} string "The object was created successfully"
+// @Failure 400 {string} string "Invalid request body"
+// @Failure 500 {string} string "Failed to create object"
+// @Router /RunCommandWithUrl [post]
+func RunCommandWithUrl(c *gin.Context) {
 	var reqData RequestData
 	if err := c.ShouldBindJSON(&reqData); err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})

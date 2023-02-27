@@ -33,7 +33,7 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Run command by script content",
+                "summary": "Run command using script content",
                 "parameters": [
                     {
                         "description": "param for RunCommandByScriptContent",
@@ -41,7 +41,50 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/agentHttpController.RequestData"
+                            "$ref": "#/definitions/agentHttpController.RequestDataForRunCommandByScriptContent"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "The object was created successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to create object",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/RunCommandWithUrl": {
+            "post": {
+                "description": "description",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Run command using url",
+                "parameters": [
+                    {
+                        "description": "param for RunCommandWithUrl",
+                        "name": "object",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/agentHttpController.RequestDataForRunCommandByUrl"
                         }
                     }
                 ],
@@ -69,17 +112,21 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "agentHttpController.RequestData": {
+        "agentHttpController.RequestDataForRunCommandByScriptContent": {
             "type": "object",
             "properties": {
                 "scriptContent": {
-                    "type": "string"
-                },
+                    "type": "string",
+                    "default": "#!/bin/bash\necho \"start\"\necho \"hello yang\"\necho \"end\""
+                }
+            }
+        },
+        "agentHttpController.RequestDataForRunCommandByUrl": {
+            "type": "object",
+            "properties": {
                 "url": {
-                    "type": "string"
-                },
-                "value": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "https://ansys-gateway-development.s3.eu-west-3.amazonaws.com/first_script.sh"
                 }
             }
         }
