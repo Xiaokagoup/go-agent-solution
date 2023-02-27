@@ -36,7 +36,9 @@ func StartHttp() {
 	wg.Add(1)
 	go func() {
 		router := gin.Default()
-		router.Use(cors.Default())
+		config := cors.DefaultConfig()
+		config.AllowAllOrigins = true
+		router.Use(cors.New(config))
 
 		router.GET("/", agentHttpController.HomeGetController)
 		router.POST("/", agentHttpController.HomePostController)
