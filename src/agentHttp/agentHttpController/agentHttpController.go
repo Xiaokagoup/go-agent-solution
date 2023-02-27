@@ -19,7 +19,7 @@ type RequestDataForRunCommandByScriptContent struct {
 	ScriptContent string `json:"scriptContent" default:"#!/bin/bash\necho \"start\"\necho \"hello yang\"\necho \"end\""`
 }
 type RequestDataForRunCommandByUrl struct {
-	Url string `json:"url" default:"https://ansys-gateway-development.s3.eu-west-3.amazonaws.com/first_script.sh"`
+	Url string `json:"url" default:"https://ansys-gateway-development.s3.eu-west-3.amazonaws.com/2023-02-27-linux-script.sh"`
 }
 
 type RequestData struct {
