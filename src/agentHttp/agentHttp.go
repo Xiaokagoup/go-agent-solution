@@ -5,6 +5,7 @@ import (
 
 	"github.com/JieanYang/HelloWorldGoAgent/src/agentHttp/agentHttpController"
 	"github.com/fvbock/endless"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -35,6 +36,7 @@ func StartHttp() {
 	wg.Add(1)
 	go func() {
 		router := gin.Default()
+		router.Use(cors.Default())
 
 		router.GET("/", agentHttpController.HomeGetController)
 		router.POST("/", agentHttpController.HomePostController)
