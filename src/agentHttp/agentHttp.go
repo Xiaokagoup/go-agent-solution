@@ -4,7 +4,7 @@ import (
 	"sync"
 
 	"github.com/JieanYang/HelloWorldGoAgent/src/agentHttp/agentHttpController"
-	"github.com/fvbock/endless"
+	// "github.com/fvbock/endless"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -56,7 +56,7 @@ func StartHttp() {
 		router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 		// Run http web service
-		endless.ListenAndServe(":9001", router)
+		router.Run(":9001")
 		wg.Done()
 	}()
 
