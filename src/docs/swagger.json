@@ -15,7 +15,7 @@
         },
         "version": "1.0"
     },
-    "host": "*:9001",
+    "host": "localhost:9001",
     "basePath": "/",
     "paths": {
         "/RunCommandByScriptContent": {

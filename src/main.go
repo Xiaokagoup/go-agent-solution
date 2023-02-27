@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	agt "github.com/JieanYang/HelloWorldGoAgent/src/agent"
-	_ "github.com/JieanYang/HelloWorldGoAgent/src/docs"
+	docs "github.com/JieanYang/HelloWorldGoAgent/src/docs"
 )
 
 // @title           HellowWorldGoAgent API
@@ -19,7 +19,7 @@ import (
 // @license.name  Apache 2.0
 // @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host      *:9001
+// @host      localhost:9001
 // @BasePath  /
 
 // @securityDefinitions.basic  BasicAuth
@@ -27,6 +27,8 @@ import (
 // @externalDocs.description  OpenAPI
 // @externalDocs.url          https://swagger.io/resources/open-api/
 func main() {
+
+	docs.SwaggerInfo.Host = "localhost:9001"
 
 	fmt.Println("Hello World !")
 	agent := agt.NewAgent()

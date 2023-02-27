@@ -16,7 +16,7 @@ definitions:
         default: https://ansys-gateway-development.s3.eu-west-3.amazonaws.com/first_script.sh
         type: string
     type: object
-host: '*:9001'
+host: localhost:9001
 info:
   contact:
     email: support@swagger.io
