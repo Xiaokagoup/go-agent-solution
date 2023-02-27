@@ -20,7 +20,7 @@ import (
 // @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
 
 // @host      localhost:9001
-// @BasePath  /api/v1
+// @BasePath  /
 
 // @securityDefinitions.basic  BasicAuth
 

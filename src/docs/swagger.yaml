@@ -1,4 +1,14 @@
-basePath: /api/v1
+basePath: /
+definitions:
+  agentHttpController.RequestData:
+    properties:
+      scriptContent:
+        type: string
+      url:
+        type: string
+      value:
+        type: string
+    type: object
 host: localhost:9001
 info:
   contact:
@@ -12,7 +22,35 @@ info:
   termsOfService: http://swagger.io/terms/
   title: HellowWorldGoAgent API
   version: "1.0"
-paths: {}
+paths:
+  /RunCommandByScriptContent:
+    post:
+      consumes:
+      - application/json
+      description: description
+      parameters:
+      - description: param for RunCommandByScriptContent
+        in: body
+        name: object
+        required: true
+        schema:
+          $ref: '#/definitions/agentHttpController.RequestData'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: The object was created successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid request body
+          schema:
+            type: string
+        "500":
+          description: Failed to create object
+          schema:
+            type: string
+      summary: Run command by script content
 securityDefinitions:
   BasicAuth:
     type: basic

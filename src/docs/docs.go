@@ -23,7 +23,67 @@ const docTemplate = `{
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
-    "paths": {},
+    "paths": {
+        "/RunCommandByScriptContent": {
+            "post": {
+                "description": "description",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Run command by script content",
+                "parameters": [
+                    {
+                        "description": "param for RunCommandByScriptContent",
+                        "name": "object",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/agentHttpController.RequestData"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "The object was created successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to create object",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "agentHttpController.RequestData": {
+            "type": "object",
+            "properties": {
+                "scriptContent": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        }
+    },
     "securityDefinitions": {
         "BasicAuth": {
             "type": "basic"
@@ -35,7 +95,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "localhost:9001",
-	BasePath:         "/api/v1",
+	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "HellowWorldGoAgent API",
 	Description:      "This is a sample server celler server.",

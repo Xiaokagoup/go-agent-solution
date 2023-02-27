@@ -35,6 +35,15 @@ func HomePostController(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"results": reqData})
 }
 
+// @Summary Run command by script content
+// @Description description
+// @Accept  json
+// @Produce  json
+// @Param object body RequestData true "param for RunCommandByScriptContent"
+// @Success 201 {string} string "The object was created successfully"
+// @Failure 400 {string} string "Invalid request body"
+// @Failure 500 {string} string "Failed to create object"
+// @Router /RunCommandByScriptContent [post]
 func RunCommandByScriptContent(c *gin.Context) {
 	var reqData RequestData
 	if err := c.ShouldBindJSON(&reqData); err != nil {
@@ -42,6 +51,7 @@ func RunCommandByScriptContent(c *gin.Context) {
 		return
 	}
 
+	fmt.Println("reqData", reqData)
 	scriptOutput := runCommand.RunCommandByScriptContent(string(reqData.ScriptContent))
 
 	data := Reponse{Results: string(scriptOutput)}
