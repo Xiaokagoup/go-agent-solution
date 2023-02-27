@@ -2,6 +2,9 @@ package main
 
 import (
 	"fmt"
+	"os"
+
+	"github.com/joho/godotenv"
 
 	agt "github.com/JieanYang/HelloWorldGoAgent/src/agent"
 	docs "github.com/JieanYang/HelloWorldGoAgent/src/docs"
@@ -28,7 +31,15 @@ import (
 // @externalDocs.url          https://swagger.io/resources/open-api/
 func main() {
 
-	docs.SwaggerInfo.Host = "localhost:9001"
+	err := godotenv.Load()
+	if err != nil {
+		fmt.Println("Error loading .env file")
+	}
+
+	host := os.Getenv("HOST")
+	fmt.Println("host", host)
+
+	docs.SwaggerInfo.Host = host
 
 	fmt.Println("Hello World !")
 	agent := agt.NewAgent()
