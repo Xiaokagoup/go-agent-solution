@@ -15,7 +15,7 @@ func main() {
 
 	q := declareQueueInChannel(ch, "ansysAgentQueue")
 
-	publishMessageToQueue(ch, q, "Agent-3 Hello World Yangs  !")
+	publishMessageToQueue(ch, q, "Agent-3 Hello World Yang !")
 	// consumeMessageFromQueue(ch, q)
 
 }
