@@ -21,7 +21,7 @@ func main() {
 }
 
 func connectToRabbitMQServer() *amqp.Connection {
-	url := "amqps://jiean:K9FD4zm9EJr7Fsg@b-ecba71c7-95cb-439c-9c13-9e556ef4ddec.mq.eu-west-3.amazonaws.com:5671/"
+	url := "amqps://jiean:K9FD4zm9EJr7Fsg@b-f6b60844-b850-445b-a3b1-cf056d0ba2cd.mq.eu-west-3.amazonaws.com:5671/"
 
 	// Connect to RabbitMQ server
 	conn, err := amqp.Dial(url)
