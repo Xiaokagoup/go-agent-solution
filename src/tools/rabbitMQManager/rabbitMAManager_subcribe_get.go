@@ -40,17 +40,20 @@ func rabbitMAManager_subcribe_get() {
 	}
 
 	for {
+		// Get a message from the queue
 		msg, ok, err := ch.Get(q.Name, true)
 		if err != nil {
 			log.Fatalf("Failed to get a message: %v", err)
 		}
 
+		// if a message was received, print its body
 		if ok {
 			log.Printf("Received a message: %v", string(msg.Body))
 			processMessage(msg.Body)
 		}
 
-		time.Sleep(time.Second) // pause for one second before getting next message
+		// pause for one second before getting next message
+		time.Sleep(time.Second)
 	}
 
 }
