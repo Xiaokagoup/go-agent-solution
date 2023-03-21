@@ -6,7 +6,7 @@ import (
 	"github.com/streadway/amqp"
 )
 
-func rabbitMAManager_subcribe() {
+func rabbitMAManager_subcribe_consume() {
 	// Define the AMQP connection URL
 	url := "amqp://guest:guest@localhost:5672/"
 
