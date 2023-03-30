@@ -26,6 +26,7 @@ func NewAgent() *Agent {
 	return &agent
 }
 
+// Business logic
 func (agent *Agent) Start() error {
 	if agent.state != Waiting {
 		return WrongStateError
@@ -35,6 +36,14 @@ func (agent *Agent) Start() error {
 	fmt.Println("Start - agent", agent.state)
 
 	agtHttp.StartHttp()
+	// modules
+	// heartbeat signal
+
+	// receive message,
+
+	// metrics, send to backend
+
+	// receiv message and hanle and sendback
 
 	return nil
 }
