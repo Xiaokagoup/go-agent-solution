@@ -1,4 +1,4 @@
-package agentpskkeymanager
+package agentPSKKeyManager
 
 import "testing"
 

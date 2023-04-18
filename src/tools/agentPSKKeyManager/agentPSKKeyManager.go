@@ -1,4 +1,4 @@
-package agentpskkeymanager
+package agentPSKKeyManager
 
 import (
 	"fmt"
@@ -9,11 +9,11 @@ import (
 
 func main() {
 	fmt.Println("run main in agentKeysManager.go")
-	keyResult := getAppData()
+	keyResult := GetPSKKey()
 	fmt.Println("keyResult:", keyResult)
 }
 
-func getAppData() string {
+func GetPSKKey() string {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		panic(err)
