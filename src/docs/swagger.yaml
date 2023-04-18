@@ -34,7 +34,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: Exit the agent
+      description: Get PSK Key
       produces:
       - application/json
       responses:
@@ -50,7 +50,7 @@ paths:
           description: Failed to create object
           schema:
             type: string
-      summary: Exit the agent
+      summary: Get PSK Key
   /RunCommandByScriptContent:
     post:
       consumes:

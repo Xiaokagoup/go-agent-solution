@@ -26,14 +26,14 @@ const docTemplate = `{
     "paths": {
         "/Exit": {
             "get": {
-                "description": "Exit the agent",
+                "description": "Get PSK Key",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Exit the agent",
+                "summary": "Get PSK Key",
                 "responses": {
                     "201": {
                         "description": "The object was created successfully",
