@@ -3,7 +3,6 @@ package agentPSKKeyManager
 import (
 	"fmt"
 	"io/ioutil"
-	"os"
 	"path/filepath"
 )
 
@@ -14,10 +13,10 @@ func main() {
 }
 
 func GetPSKKey() string {
-	homeDir, err := os.UserHomeDir()
-	if err != nil {
-		panic(err)
-	}
+	// homeDir, err := os.UserHomeDir()
+	// if err != nil {
+	// 	panic(err)
+	// }
 
 	// keyDir := filepath.Join(homeDir, ".HelloWorldGoAgent")
 	keyDir := filepath.Join("/", ".HelloWorldGoAgent")
