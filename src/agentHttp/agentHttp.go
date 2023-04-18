@@ -4,7 +4,6 @@ import (
 	"sync"
 
 	"github.com/JieanYang/HelloWorldGoAgent/src/agentHttp/agentHttpController"
-	// "github.com/fvbock/endless"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -21,6 +20,9 @@ func StartHttp() {
 		config.AllowAllOrigins = true
 		router.Use(cors.New(config))
 
+		// Swagger
+		router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 		router.GET("/", agentHttpController.HomeGetController)
 		router.POST("/", agentHttpController.HomePostController)
 
@@ -36,8 +38,8 @@ func StartHttp() {
 		// Exits agent
 		router.GET("/Exit", agentHttpController.Exit)
 
-		// Swagger
-		router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+		// Get PSK key
+		router.GET("/dev/getPSKKey", agentHttpController.GetPSKKey)
 
 		// Run http web service
 		router.Run(":9001")

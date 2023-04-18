@@ -7,6 +7,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/JieanYang/HelloWorldGoAgent/src/tools/agentPSKKeyManager"
 	"github.com/JieanYang/HelloWorldGoAgent/src/tools/runCommand"
 	"github.com/gin-gonic/gin"
 )
@@ -132,4 +133,17 @@ func Exit(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"results": "ok"})
 
 	fmt.Println("End API called")
+}
+
+// @Summary Get PSK Key
+// @Description Get PSK Key
+// @Accept  json
+// @Produce  json
+// @Success 201 {string} string "The object was created successfully"
+// @Failure 400 {string} string "Invalid request body"
+// @Failure 500 {string} string "Failed to create object"
+// @Router /Exit [get]
+func GetPSKKey(c *gin.Context) {
+	PSK_key := agentPSKKeyManager.GetPSKKey()
+	c.JSON(http.StatusOK, gin.H{"results": PSK_key})
 }
