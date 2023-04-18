@@ -34,7 +34,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: Get PSK Key
+      description: Exit the agent
       produces:
       - application/json
       responses:
@@ -50,7 +50,7 @@ paths:
           description: Failed to create object
           schema:
             type: string
-      summary: Get PSK Key
+      summary: Exit the agent
   /RunCommandByScriptContent:
     post:
       consumes:
@@ -107,6 +107,27 @@ paths:
           schema:
             type: string
       summary: Run command using url
+  /dev/getPSKKey:
+    get:
+      consumes:
+      - application/json
+      description: Get PSK Key
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: The object was created successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid request body
+          schema:
+            type: string
+        "500":
+          description: Failed to create object
+          schema:
+            type: string
+      summary: Get PSK Key
 securityDefinitions:
   BasicAuth:
     type: basic

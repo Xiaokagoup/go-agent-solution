@@ -142,7 +142,7 @@ func Exit(c *gin.Context) {
 // @Success 201 {string} string "The object was created successfully"
 // @Failure 400 {string} string "Invalid request body"
 // @Failure 500 {string} string "Failed to create object"
-// @Router /Exit [get]
+// @Router /dev/getPSKKey [get]
 func GetPSKKey(c *gin.Context) {
 	PSK_key := agentPSKKeyManager.GetPSKKey()
 	c.JSON(http.StatusOK, gin.H{"results": PSK_key})

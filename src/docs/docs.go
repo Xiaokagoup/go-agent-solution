@@ -26,14 +26,14 @@ const docTemplate = `{
     "paths": {
         "/Exit": {
             "get": {
-                "description": "Get PSK Key",
+                "description": "Exit the agent",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Get PSK Key",
+                "summary": "Exit the agent",
                 "responses": {
                     "201": {
                         "description": "The object was created successfully",
@@ -120,6 +120,38 @@ const docTemplate = `{
                         }
                     }
                 ],
+                "responses": {
+                    "201": {
+                        "description": "The object was created successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to create object",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/dev/getPSKKey": {
+            "get": {
+                "description": "Get PSK Key",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get PSK Key",
                 "responses": {
                     "201": {
                         "description": "The object was created successfully",
