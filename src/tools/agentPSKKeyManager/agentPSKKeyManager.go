@@ -20,7 +20,7 @@ func GetPSKKey() string {
 
 	// keyDir := filepath.Join(homeDir, ".HelloWorldGoAgent")
 	keyDir := filepath.Join("/", ".HelloWorldGoAgent")
-	keyFile := filepath.Join(keyDir, "PSK_key.txt")
+	keyFile := filepath.Join(keyDir, "origin_metadata.json")
 
 	keyBytes, err := ioutil.ReadFile(keyFile)
 	if err != nil {
