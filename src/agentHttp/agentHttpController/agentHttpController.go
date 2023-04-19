@@ -135,15 +135,15 @@ func Exit(c *gin.Context) {
 	fmt.Println("End API called")
 }
 
-// @Summary Get PSK Key
-// @Description Get PSK Key
+// @Summary Get origin metadata json
+// @Description Get origin metadata json
 // @Accept  json
 // @Produce  json
 // @Success 201 {string} string "The object was created successfully"
 // @Failure 400 {string} string "Invalid request body"
 // @Failure 500 {string} string "Failed to create object"
-// @Router /dev/getPSKKey [get]
-func GetPSKKey(c *gin.Context) {
+// @Router /dev/getOriginalMetadataJson [get]
+func GetOriginalMetadataJson(c *gin.Context) {
 	originMetadataJson, err := agentOriginMetadataJsonManager.GetOriginMetadataJson()
 	if err != nil {
 		panic(err)

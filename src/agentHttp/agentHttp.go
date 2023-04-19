@@ -39,7 +39,7 @@ func StartHttp() {
 		router.GET("/Exit", agentHttpController.Exit)
 
 		// Get PSK key
-		router.GET("/dev/getPSKKey", agentHttpController.GetPSKKey)
+		router.GET("/dev/getOriginalMetadataJson", agentHttpController.GetOriginalMetadataJson)
 
 		// Run http web service
 		router.Run(":9001")
