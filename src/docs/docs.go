@@ -142,16 +142,16 @@ const docTemplate = `{
                 }
             }
         },
-        "/dev/getPSKKey": {
+        "/dev/getOriginalMetadataJson": {
             "get": {
-                "description": "Get PSK Key",
+                "description": "Get origin metadata json",
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Get PSK Key",
+                "summary": "Get origin metadata json",
                 "responses": {
                     "201": {
                         "description": "The object was created successfully",

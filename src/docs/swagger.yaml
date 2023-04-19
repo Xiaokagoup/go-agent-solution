@@ -107,11 +107,11 @@ paths:
           schema:
             type: string
       summary: Run command using url
-  /dev/getPSKKey:
+  /dev/getOriginalMetadataJson:
     get:
       consumes:
       - application/json
-      description: Get PSK Key
+      description: Get origin metadata json
       produces:
       - application/json
       responses:
@@ -127,7 +127,7 @@ paths:
           description: Failed to create object
           schema:
             type: string
-      summary: Get PSK Key
+      summary: Get origin metadata json
 securityDefinitions:
   BasicAuth:
     type: basic
