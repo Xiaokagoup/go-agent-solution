@@ -7,7 +7,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/JieanYang/HelloWorldGoAgent/src/tools/agentPSKKeyManager"
+	"github.com/JieanYang/HelloWorldGoAgent/src/tools/agentOriginMetadataJsonManager"
 	"github.com/JieanYang/HelloWorldGoAgent/src/tools/runCommand"
 	"github.com/gin-gonic/gin"
 )
@@ -144,6 +144,6 @@ func Exit(c *gin.Context) {
 // @Failure 500 {string} string "Failed to create object"
 // @Router /dev/getPSKKey [get]
 func GetPSKKey(c *gin.Context) {
-	PSK_key := agentPSKKeyManager.GetPSKKey()
+	PSK_key := agentOriginMetadataJsonManager.GetOriginMetadataJson()
 	c.JSON(http.StatusOK, gin.H{"results": PSK_key})
 }

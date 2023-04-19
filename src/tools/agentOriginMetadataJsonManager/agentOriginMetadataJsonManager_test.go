@@ -1,4 +1,4 @@
-package agentPSKKeyManager
+package agentOriginMetadataJsonManager
 
 import "testing"
 

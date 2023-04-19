@@ -1,4 +1,4 @@
-package agentPSKKeyManager
+package agentOriginMetadataJsonManager
 
 import (
 	"fmt"
@@ -8,11 +8,11 @@ import (
 
 func main() {
 	fmt.Println("run main in agentKeysManager.go")
-	keyResult := GetPSKKey()
+	keyResult := GetOriginMetadataJson()
 	fmt.Println("keyResult:", keyResult)
 }
 
-func GetPSKKey() string {
+func GetOriginMetadataJson() string {
 	// homeDir, err := os.UserHomeDir()
 	// if err != nil {
 	// 	panic(err)
