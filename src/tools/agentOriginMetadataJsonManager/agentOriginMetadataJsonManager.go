@@ -1,6 +1,7 @@
 package agentOriginMetadataJsonManager
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"path/filepath"
@@ -8,27 +9,33 @@ import (
 
 func main() {
 	fmt.Println("run main in agentKeysManager.go")
-	keyResult := GetOriginMetadataJson()
+	keyResult, err := GetOriginMetadataJson()
+	if err != nil {
+		panic(err)
+	}
 	fmt.Println("keyResult:", keyResult)
 }
 
-func GetOriginMetadataJson() string {
+func GetOriginMetadataJson() (map[string]string, error) {
 	// homeDir, err := os.UserHomeDir()
 	// if err != nil {
 	// 	panic(err)
 	// }
 
-	// keyDir := filepath.Join(homeDir, ".HelloWorldGoAgent")
-	keyDir := filepath.Join("/", ".HelloWorldGoAgent")
-	keyFile := filepath.Join(keyDir, "origin_metadata.json")
+	// originMetadataDir := filepath.Join(homeDir, ".HelloWorldGoAgent")
+	originMetadataDir := filepath.Join("/", ".HelloWorldGoAgent")
+	originMetadataFile := filepath.Join(originMetadataDir, "origin_metadata.json")
 
-	keyBytes, err := ioutil.ReadFile(keyFile)
+	originMetadataBytes, err := ioutil.ReadFile(originMetadataFile)
 	if err != nil {
 		panic(err)
 	}
 
-	key := string(keyBytes)
-	fmt.Println("Key:", key)
+	var originMetadataJson map[string]string
+	err = json.Unmarshal(originMetadataBytes, &originMetadataJson)
+	if err != nil {
+		return nil, err
+	}
 
-	return key
+	return originMetadataJson, nil
 }
