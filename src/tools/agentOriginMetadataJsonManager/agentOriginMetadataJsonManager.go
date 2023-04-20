@@ -10,52 +10,52 @@ import (
 
 func main() {
 	fmt.Println("run main in agentKeysManager.go")
-	keyResult, err := GetOriginMetadataJson()
+	keyResult, err := GetOriginalMetadataJson()
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println("keyResult:", keyResult)
 }
 
-func GetOriginMetadataJson() (map[string]string, error) {
+func GetOriginalMetadataJson() (map[string]string, error) {
 	os := runtime.GOOS
 
 	// homeDir, err := os.UserHomeDir()
 	// if err != nil {
 	// 	panic(err)
 	// }
-	var originMetadataJson map[string]string
+	var originalMetadataJson map[string]string
 
 	if os == "linux" {
-		// originMetadataDir := filepath.Join(homeDir, ".HelloWorldGoAgent")
-		originMetadataDir := filepath.Join("/", ".HelloWorldGoAgent")
-		originMetadataFile := filepath.Join(originMetadataDir, "origin_metadata.json")
+		// originalMetadataDir := filepath.Join(homeDir, ".HelloWorldGoAgent")
+		originalMetadataDir := filepath.Join("/", ".HelloWorldGoAgent")
+		originalMetadataFile := filepath.Join(originalMetadataDir, "original_metadata.json")
 
-		originMetadataBytes, err := ioutil.ReadFile(originMetadataFile)
+		originalMetadataBytes, err := ioutil.ReadFile(originalMetadataFile)
 		if err != nil {
 			panic(err)
 		}
 
-		err = json.Unmarshal(originMetadataBytes, &originMetadataJson)
+		err = json.Unmarshal(originalMetadataBytes, &originalMetadataJson)
 		if err != nil {
 			return nil, err
 		}
 	} else if os == "windows" {
-		// C:\\Users\\Administrator\\.HelloWorldGoAgent\\origin_metadata.json
-		// originMetadataDir := filepath.Join(homeDir, ".HelloWorldGoAgent")
-		originMetadataDir := filepath.Join("C:\\Users\\Administrator", ".HelloWorldGoAgent")
-		originMetadataFile := filepath.Join(originMetadataDir, "origin_metadata.json")
+		// C:\\Users\\Administrator\\.HelloWorldGoAgent\\original_metadata.json
+		// originalMetadataDir := filepath.Join(homeDir, ".HelloWorldGoAgent")
+		originalMetadataDir := filepath.Join("C:\\Users\\Administrator", ".HelloWorldGoAgent")
+		originalMetadataFile := filepath.Join(originalMetadataDir, "original_metadata.json")
 
-		originMetadataBytes, err := ioutil.ReadFile(originMetadataFile)
+		originalMetadataBytes, err := ioutil.ReadFile(originalMetadataFile)
 		if err != nil {
 			panic(err)
 		}
 
-		err = json.Unmarshal(originMetadataBytes, &originMetadataJson)
+		err = json.Unmarshal(originalMetadataBytes, &originalMetadataJson)
 		if err != nil {
 			return nil, err
 		}
 	}
 
-	return originMetadataJson, nil
+	return originalMetadataJson, nil
 }

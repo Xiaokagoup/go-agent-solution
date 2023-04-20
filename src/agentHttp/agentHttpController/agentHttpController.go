@@ -144,9 +144,9 @@ func Exit(c *gin.Context) {
 // @Failure 500 {string} string "Failed to create object"
 // @Router /dev/getOriginalMetadataJson [get]
 func GetOriginalMetadataJson(c *gin.Context) {
-	originMetadataJson, err := agentOriginMetadataJsonManager.GetOriginMetadataJson()
+	originalMetadataJson, err := agentOriginMetadataJsonManager.GetOriginalMetadataJson()
 	if err != nil {
 		panic(err)
 	}
-	c.JSON(http.StatusOK, gin.H{"results": originMetadataJson})
+	c.JSON(http.StatusOK, gin.H{"results": originalMetadataJson})
 }
