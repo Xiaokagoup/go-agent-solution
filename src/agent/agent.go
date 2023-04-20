@@ -47,3 +47,11 @@ func (agent *Agent) Start() error {
 
 	return nil
 }
+
+func (agent *Agent) Init() {
+	// load config
+	// load modules
+	// load heartbeat signal
+	// load metrics
+	// load message
+}
