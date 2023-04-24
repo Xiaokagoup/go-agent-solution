@@ -142,7 +142,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/dev/getOriginalMetadataJson": {
+        "/dev/getAppConfig": {
             "get": {
                 "description": "Get origin metadata json",
                 "consumes": [

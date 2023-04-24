@@ -107,7 +107,7 @@ paths:
           schema:
             type: string
       summary: Run command using url
-  /dev/getOriginalMetadataJson:
+  /dev/getAppConfig:
     get:
       consumes:
       - application/json
