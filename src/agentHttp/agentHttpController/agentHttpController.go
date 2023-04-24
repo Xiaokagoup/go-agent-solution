@@ -154,12 +154,29 @@ func GetOriginalMetadataJson(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"results": originalMetadataJson})
 }
 
-func GetAppDataPath() string {
-	appDataPath := os.Getenv("APPDATA")
-	if appDataPath == "" {
-		appDataPath = os.Getenv("HOME")
+func GetAppDataPathByAppName(appName string) string {
+	fmt.Println("GetAppDataPathByAppName - start")
+
+	var appDataByAppNamePath string
+	switch runtime.GOOS {
+	case "linux":
+		if os.Getenv("XDG_CONFIG_HOME") != "" {
+			appDataByAppNamePath = filepath.Join(os.Getenv("XDG_CONFIG_HOME"), appName)
+		} else {
+			appDataByAppNamePath = filepath.Join(os.Getenv("HOME"), ".config", appName)
+		}
+	case "windows":
+		appDataByAppNamePath = filepath.Join(os.Getenv("APPDATA"), appName)
+	case "darwin":
+		appDataByAppNamePath = filepath.Join(os.Getenv("HOME"), "Library", "Application Support", appName)
+	default:
+		fmt.Println("Unsupported operating system")
+		os.Exit(1)
 	}
-	return appDataPath
+
+	fmt.Println("GetAppDataPathByAppName:", appDataByAppNamePath)
+
+	return appDataByAppNamePath
 }
 
 // @Summary Test
@@ -186,26 +203,11 @@ func Test(c *gin.Context) {
 	v.SetConfigFile(fileName)
 
 	// Set the default appData path for Linux, Windows, and macOS systems
-	var appDataPath string
-	switch runtime.GOOS {
-	case "linux":
-		if os.Getenv("XDG_CONFIG_HOME") != "" {
-			appDataPath = filepath.Join(os.Getenv("XDG_CONFIG_HOME"), appName)
-		} else {
-			appDataPath = filepath.Join(os.Getenv("HOME"), ".config", appName)
-		}
-	case "windows":
-		appDataPath = filepath.Join(os.Getenv("APPDATA"), appName)
-	case "darwin":
-		appDataPath = filepath.Join(os.Getenv("HOME"), "Library", "Application Support", appName)
-	default:
-		fmt.Println("Unsupported operating system")
-		os.Exit(1)
-	}
+	var appDataPath string = GetAppDataPathByAppName(appName)
+	configFileLocation := filepath.Join(appDataPath, fileName)
 
-	// Set the configuration file path
-	fmt.Println("appDataPath", appDataPath)
-	v.AddConfigPath(appDataPath)
+	// Set the configuration file name with the full path
+	v.SetConfigFile(configFileLocation)
 
 	// Set some configuration options
 	v.Set("server.address", "localhost")
@@ -217,8 +219,7 @@ func Test(c *gin.Context) {
 	}
 
 	// Create the configuration file if it doesn't exist
-	configFile := filepath.Join(appDataPath, fileName)
-	if _, err := os.Stat(configFile); os.IsNotExist(err) {
+	if _, err := os.Stat(configFileLocation); os.IsNotExist(err) {
 		// Save the configuration file, create it if it doesn't exist
 		err := v.SafeWriteConfig()
 		if err != nil {
@@ -233,7 +234,7 @@ func Test(c *gin.Context) {
 	}
 
 	// Save changes to the configuration file
-	err := v.WriteConfigAs(configFile)
+	err := v.WriteConfigAs(configFileLocation)
 	if err != nil {
 		fmt.Printf("Error writing config file: %v\n", err)
 	}
