@@ -128,6 +128,15 @@ paths:
           schema:
             type: string
       summary: Get origin metadata json
+  /dev/test:
+    get:
+      consumes:
+      - application/json
+      description: Test
+      produces:
+      - application/json
+      responses: {}
+      summary: Test
 securityDefinitions:
   BasicAuth:
     type: basic

@@ -173,6 +173,19 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/dev/test": {
+            "get": {
+                "description": "Test",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Test",
+                "responses": {}
+            }
         }
     },
     "definitions": {
