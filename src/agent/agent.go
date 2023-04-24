@@ -82,7 +82,7 @@ func (agent *Agent) Init() {
 	}
 
 	// Send POST request
-	url := "https://ee5c-2a01-cb08-ad0-f700-e00b-d224-dbfe-bb45.ngrok-free.app/node/api-docs/#/Agent/post_agent_receivePSKKey"
+	url := "https://ee5c-2a01-cb08-ad0-f700-e00b-d224-dbfe-bb45.ngrok-free.app/node/api-docs" // here pass to local server
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(payloadBytes))
 	if err != nil {
 		panic(err)
