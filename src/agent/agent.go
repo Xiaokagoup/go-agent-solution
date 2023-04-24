@@ -11,6 +11,7 @@ import (
 	"net/http"
 
 	agtHttp "github.com/JieanYang/HelloWorldGoAgent/src/agentHttp"
+	"github.com/JieanYang/HelloWorldGoAgent/src/tools/agentMetadataManager"
 )
 
 const (
@@ -41,6 +42,7 @@ func (agent *Agent) Start() error {
 	agent.state = Running
 	fmt.Println("Start - agent", agent.state)
 
+	agent.Init()
 	agtHttp.StartHttp()
 	// modules
 	// heartbeat signal
@@ -68,6 +70,7 @@ func (agent *Agent) Init() {
 		panic(err)
 	}
 	psk := base64.StdEncoding.EncodeToString(key)
+	agentMetadataManager.GetOrCreateConfigFileWithSpecifiedPskKey(psk) // save psk key to config file
 
 	// Prepare payload
 	payload := map[string]string{
@@ -105,5 +108,4 @@ func (agent *Agent) Init() {
 	}
 	bodyString := string(bodyBytes)
 	fmt.Println("Response body:", bodyString)
-
 }

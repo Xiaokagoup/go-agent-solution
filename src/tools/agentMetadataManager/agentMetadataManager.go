@@ -103,6 +103,7 @@ type Config struct {
 		Port int    `json:"port"`
 	} `json:"server"`
 	ConfigFileLocation string `json:"configFileLocation"`
+	PSK_Key            string `json:"psk_key"`
 }
 
 // To Custimize the output of the struct Config when printing it
@@ -131,6 +132,65 @@ func GetOrCreateConfigFile() Config {
 	v.Set("server.address", "localhost")
 	v.Set("server.port", 8080)
 	v.Set("configFileLocation", configFileLocation)
+	v.Set("psk_key", "12345678901234567890123456789012")
+
+	// Create the configuration directory if it doesn't exist
+	if _, err := os.Stat(appDataPath); os.IsNotExist(err) {
+		os.MkdirAll(appDataPath, 0755)
+	}
+
+	// Create the configuration file if it doesn't exist
+	if _, err := os.Stat(configFileLocation); os.IsNotExist(err) {
+		// Save the configuration file, create it if it doesn't exist
+		err := v.SafeWriteConfig()
+		if err != nil {
+			fmt.Printf("Error creating config file: %v\n", err)
+		}
+	} else {
+		// Read the configuration file
+		err := v.ReadInConfig()
+		if err != nil {
+			fmt.Printf("Error reading config file: %v\n", err)
+		}
+	}
+
+	// Save changes to the configuration file
+	err := v.WriteConfigAs(configFileLocation)
+	if err != nil {
+		fmt.Printf("Error writing config file: %v\n", err)
+	}
+
+	var config Config
+	err = v.Unmarshal(&config)
+	if err != nil {
+		panic(fmt.Errorf("unable to decode into struct, %v", err))
+	}
+
+	return config
+}
+
+func GetOrCreateConfigFileWithSpecifiedPskKey(pskKey string) Config {
+	appName := "HelloWorldGoAgent"
+	fileName := "config.json"
+
+	// Create a new instance of Viper
+	v := viper.New()
+
+	// Set the configuration file name
+	v.SetConfigFile(fileName)
+
+	// Set the default appData path for Linux, Windows, and macOS systems
+	var appDataPath string = GetAppDataPathByAppName(appName)
+	configFileLocation := filepath.Join(appDataPath, fileName)
+
+	// Set the configuration file name with the full path
+	v.SetConfigFile(configFileLocation)
+
+	// Set some configuration options
+	v.Set("server.address", "localhost")
+	v.Set("server.port", 8080)
+	v.Set("configFileLocation", configFileLocation)
+	v.Set("psk_key", pskKey)
 
 	// Create the configuration directory if it doesn't exist
 	if _, err := os.Stat(appDataPath); os.IsNotExist(err) {
