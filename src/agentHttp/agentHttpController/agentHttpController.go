@@ -10,6 +10,7 @@ import (
 	"github.com/JieanYang/HelloWorldGoAgent/src/tools/agentOriginMetadataJsonManager"
 	"github.com/JieanYang/HelloWorldGoAgent/src/tools/runCommand"
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
 )
 
 type Reponse struct {
@@ -157,5 +158,39 @@ func GetOriginalMetadataJson(c *gin.Context) {
 // @Produce  json
 // @Router /dev/test [get]
 func Test(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"results": "ok"})
+
+	type Config struct {
+		Server struct {
+			Host string `json:"host"`
+			Port int    `json:"port"`
+		} `json:"server"`
+	}
+
+	// Create a new instance of Viper
+	v := viper.New()
+
+	// Set the configuration file name and path
+	v.SetConfigFile("config.json")
+	v.AddConfigPath(".")
+
+	// Set some configuration options
+	v.Set("server.address", "localhost")
+	v.Set("server.port", 8080)
+
+	// Save the configuration file
+	v.WriteConfig()
+
+	// Read the configuration file
+	err := v.ReadInConfig()
+	if err != nil {
+		panic(fmt.Errorf("fatal error config file: %s", err))
+	}
+
+	var config Config
+	err = v.Unmarshal(&config)
+	if err != nil {
+		panic(fmt.Errorf("unable to decode into struct, %v", err))
+	}
+
+	c.JSON(http.StatusOK, gin.H{"results": config})
 }
