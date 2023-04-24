@@ -5,6 +5,8 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"path/filepath"
+	"runtime"
 	"time"
 
 	"github.com/JieanYang/HelloWorldGoAgent/src/tools/agentOriginMetadataJsonManager"
@@ -152,6 +154,14 @@ func GetOriginalMetadataJson(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"results": originalMetadataJson})
 }
 
+func GetAppDataPath() string {
+	appDataPath := os.Getenv("APPDATA")
+	if appDataPath == "" {
+		appDataPath = os.Getenv("HOME")
+	}
+	return appDataPath
+}
+
 // @Summary Test
 // @Description Test
 // @Accept  json
@@ -166,24 +176,66 @@ func Test(c *gin.Context) {
 		} `json:"server"`
 	}
 
+	appName := "HelloWorldGoAgent"
+	fileName := "config.json"
+
 	// Create a new instance of Viper
 	v := viper.New()
 
-	// Set the configuration file name and path
-	v.SetConfigFile("config.json")
-	v.AddConfigPath(".")
+	// Set the configuration file name
+	v.SetConfigFile(fileName)
+
+	// Set the default appData path for Linux, Windows, and macOS systems
+	var appDataPath string
+	switch runtime.GOOS {
+	case "linux":
+		if os.Getenv("XDG_CONFIG_HOME") != "" {
+			appDataPath = filepath.Join(os.Getenv("XDG_CONFIG_HOME"), appName)
+		} else {
+			appDataPath = filepath.Join(os.Getenv("HOME"), ".config", appName)
+		}
+	case "windows":
+		appDataPath = filepath.Join(os.Getenv("APPDATA"), appName)
+	case "darwin":
+		appDataPath = filepath.Join(os.Getenv("HOME"), "Library", "Application Support", appName)
+	default:
+		fmt.Println("Unsupported operating system")
+		os.Exit(1)
+	}
+
+	// Set the configuration file path
+	fmt.Println("appDataPath", appDataPath)
+	v.AddConfigPath(appDataPath)
 
 	// Set some configuration options
 	v.Set("server.address", "localhost")
 	v.Set("server.port", 8080)
 
-	// Save the configuration file
-	v.WriteConfig()
+	// Create the configuration directory if it doesn't exist
+	if _, err := os.Stat(appDataPath); os.IsNotExist(err) {
+		os.MkdirAll(appDataPath, 0755)
+	}
 
-	// Read the configuration file
-	err := v.ReadInConfig()
+	// Create the configuration file if it doesn't exist
+	configFile := filepath.Join(appDataPath, fileName)
+	if _, err := os.Stat(configFile); os.IsNotExist(err) {
+		// Save the configuration file, create it if it doesn't exist
+		err := v.SafeWriteConfig()
+		if err != nil {
+			fmt.Printf("Error creating config file: %v\n", err)
+		}
+	} else {
+		// Read the configuration file
+		err := v.ReadInConfig()
+		if err != nil {
+			fmt.Printf("Error reading config file: %v\n", err)
+		}
+	}
+
+	// Save changes to the configuration file
+	err := v.WriteConfigAs(configFile)
 	if err != nil {
-		panic(fmt.Errorf("fatal error config file: %s", err))
+		fmt.Printf("Error writing config file: %v\n", err)
 	}
 
 	var config Config
