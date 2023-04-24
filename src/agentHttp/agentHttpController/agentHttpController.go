@@ -150,3 +150,12 @@ func GetOriginalMetadataJson(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"results": originalMetadataJson})
 }
+
+// @Summary Test
+// @Description Test
+// @Accept  json
+// @Produce  json
+// @Router /dev/test [get]
+func Test(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{"results": "ok"})
+}

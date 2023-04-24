@@ -40,6 +40,8 @@ func StartHttp() {
 
 		// Get PSK key
 		router.GET("/dev/getOriginalMetadataJson", agentHttpController.GetOriginalMetadataJson)
+		// Get PSK key
+		router.GET("/dev/test", agentHttpController.Test)
 
 		// Run http web service
 		router.Run(":9001")
