@@ -9,7 +9,6 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/JieanYang/HelloWorldGoAgent/src/tools/agentOriginMetadataJsonManager"
 	"github.com/JieanYang/HelloWorldGoAgent/src/tools/runCommand"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
@@ -147,11 +146,11 @@ func Exit(c *gin.Context) {
 // @Failure 500 {string} string "Failed to create object"
 // @Router /dev/getOriginalMetadataJson [get]
 func GetOriginalMetadataJson(c *gin.Context) {
-	originalMetadataJson, err := agentOriginMetadataJsonManager.GetOriginalMetadataJson()
-	if err != nil {
-		panic(err)
-	}
-	c.JSON(http.StatusOK, gin.H{"results": originalMetadataJson})
+	// originalMetadataJson, err := agentOriginMetadataJsonManager.GetOriginalMetadataJson()
+	// if err != nil {
+	// 	panic(err)
+	// }
+	c.JSON(http.StatusOK, gin.H{"results": "GetOriginalMetadataJson will replace by Viper"})
 }
 
 func GetAppDataPathByAppName(appName string) string {
