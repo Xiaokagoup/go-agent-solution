@@ -102,6 +102,7 @@ type Config struct {
 		Host string `json:"host"`
 		Port int    `json:"port"`
 	} `json:"server"`
+	ConfigFileLocation string `json:"configFileLocation"`
 }
 
 // To Custimize the output of the struct Config when printing it
@@ -129,6 +130,7 @@ func GetOrCreateConfigFile() Config {
 	// Set some configuration options
 	v.Set("server.address", "localhost")
 	v.Set("server.port", 8080)
+	v.Set("configFileLocation", configFileLocation)
 
 	// Create the configuration directory if it doesn't exist
 	if _, err := os.Stat(appDataPath); os.IsNotExist(err) {

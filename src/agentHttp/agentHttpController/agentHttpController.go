@@ -142,13 +142,10 @@ func Exit(c *gin.Context) {
 // @Success 201 {string} string "The object was created successfully"
 // @Failure 400 {string} string "Invalid request body"
 // @Failure 500 {string} string "Failed to create object"
-// @Router /dev/getOriginalMetadataJson [get]
-func GetOriginalMetadataJson(c *gin.Context) {
-	// originalMetadataJson, err := agentOriginMetadataJsonManager.GetOriginalMetadataJson()
-	// if err != nil {
-	// 	panic(err)
-	// }
-	c.JSON(http.StatusOK, gin.H{"results": "GetOriginalMetadataJson will replace by Viper"})
+// @Router /dev/getAppConfig [get]
+func GetAppConfig(c *gin.Context) {
+	config := agentMetadataManager.GetOrCreateConfigFile()
+	c.JSON(http.StatusOK, gin.H{"results": config})
 }
 
 // @Summary Test
@@ -157,9 +154,5 @@ func GetOriginalMetadataJson(c *gin.Context) {
 // @Produce  json
 // @Router /dev/test [get]
 func Test(c *gin.Context) {
-
-	config := agentMetadataManager.GetOrCreateConfigFile()
-	fmt.Println("config in test", config)
-
-	c.JSON(http.StatusOK, gin.H{"results": config})
+	c.JSON(http.StatusOK, gin.H{"results": "OK"})
 }

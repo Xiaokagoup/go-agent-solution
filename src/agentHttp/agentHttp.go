@@ -38,9 +38,10 @@ func StartHttp() {
 		// Exits agent
 		router.GET("/Exit", agentHttpController.Exit)
 
-		// Get PSK key
-		router.GET("/dev/getOriginalMetadataJson", agentHttpController.GetOriginalMetadataJson)
-		// Get PSK key
+		// Get AppConfig
+		router.GET("/dev/getAppConfig", agentHttpController.GetAppConfig)
+
+		// Test
 		router.GET("/dev/test", agentHttpController.Test)
 
 		// Run http web service
