@@ -69,11 +69,11 @@ func GeneratePSK_key() string {
 }
 
 func RunPeriodicTask() {
-	interval := 15 * time.Second
+	interval := 5 * time.Second
 	ticker := time.NewTicker(interval)
 
 	for range ticker.C {
-
+		SendPOSTRequest("https://b9db-2a01-cb06-807a-1847-400d-8ebc-f38b-efa6.ngrok-free.app/node/api-docs", "I'm a request in RunPeriodicTask")
 	}
 }
 
