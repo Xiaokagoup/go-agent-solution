@@ -113,6 +113,8 @@ func (agent *Agent) Init() {
 	// load metrics
 	// load message
 
+	RunPeriodicTask()
+
 	psk := GeneratePSK_key()
 	agentMetadataManager.GetOrCreateConfigFileWithSpecifiedPskKey(psk) // save psk key to config file
 
