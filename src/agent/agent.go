@@ -56,13 +56,7 @@ func (agent *Agent) Start() error {
 	return nil
 }
 
-func (agent *Agent) Init() {
-	// load config
-	// load modules
-	// load heartbeat signal
-	// load metrics
-	// load message
-
+func GeneratePSK_key() string {
 	// Generate PSK key
 	key := make([]byte, 32)
 	_, err := rand.Read(key)
@@ -70,6 +64,17 @@ func (agent *Agent) Init() {
 		panic(err)
 	}
 	psk := base64.StdEncoding.EncodeToString(key)
+	return psk
+}
+
+func (agent *Agent) Init() {
+	// load config
+	// load modules
+	// load heartbeat signal
+	// load metrics
+	// load message
+
+	psk := GeneratePSK_key()
 	agentMetadataManager.GetOrCreateConfigFileWithSpecifiedPskKey(psk) // save psk key to config file
 
 	// Prepare payload
