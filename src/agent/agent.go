@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"runtime"
 	"time"
 
 	agtHttp "github.com/JieanYang/HelloWorldGoAgent/src/agentHttp"
@@ -75,7 +76,7 @@ func RunPeriodicTask() {
 	ticker := time.NewTicker(interval)
 
 	for range ticker.C {
-		SendPOSTRequest(BACKEND_ENDPOINT+"/node/api-docs", "I'm a request in RunPeriodicTask")
+		SendPOSTRequest(BACKEND_ENDPOINT+"/node/api-docs", runtime.GOOS+" | I'm a request in RunPeriodicTask")
 	}
 }
 
@@ -120,7 +121,7 @@ func (agent *Agent) Init() {
 	psk := GeneratePSK_key()
 	agentMetadataManager.GetOrCreateConfigFileWithSpecifiedPskKey(psk) // save psk key to config file
 
-	resp := SendPOSTRequest(BACKEND_ENDPOINT+"/node/api-docs", "Hello World")
+	resp := SendPOSTRequest(BACKEND_ENDPOINT+"/node/api-docs", runtime.GOOS+" | Hello World")
 
 	// Check response status code
 	if resp.StatusCode != http.StatusOK {
