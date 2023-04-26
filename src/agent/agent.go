@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"time"
 
 	agtHttp "github.com/JieanYang/HelloWorldGoAgent/src/agentHttp"
 	"github.com/JieanYang/HelloWorldGoAgent/src/tools/agentMetadataManager"
@@ -67,28 +68,29 @@ func GeneratePSK_key() string {
 	return psk
 }
 
-func (agent *Agent) Init() {
-	// load config
-	// load modules
-	// load heartbeat signal
-	// load metrics
-	// load message
+func RunPeriodicTask() {
+	interval := 15 * time.Second
+	ticker := time.NewTicker(interval)
 
-	psk := GeneratePSK_key()
-	agentMetadataManager.GetOrCreateConfigFileWithSpecifiedPskKey(psk) // save psk key to config file
+	for range ticker.C {
 
-	// Prepare payload
-	payload := map[string]string{
-		"key": psk,
 	}
-	payloadBytes, err := json.Marshal(payload)
+}
+
+func SendPOSTRequest(url string, messages string) *http.Response {
+	type POSTData struct {
+		Messages string `json:"message"`
+	}
+
+	postData := &POSTData{
+		Messages: messages,
+	}
+	jsonPostData, err := json.Marshal(postData)
 	if err != nil {
 		panic(err)
 	}
 
-	// Send POST request
-	url := "https://ee5c-2a01-cb08-ad0-f700-e00b-d224-dbfe-bb45.ngrok-free.app/node/api-docs" // here pass to local server
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(payloadBytes))
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonPostData))
 	if err != nil {
 		panic(err)
 	}
@@ -100,6 +102,21 @@ func (agent *Agent) Init() {
 		panic(err)
 	}
 	defer resp.Body.Close()
+
+	return resp
+}
+
+func (agent *Agent) Init() {
+	// load config
+	// load modules
+	// load heartbeat signal
+	// load metrics
+	// load message
+
+	psk := GeneratePSK_key()
+	agentMetadataManager.GetOrCreateConfigFileWithSpecifiedPskKey(psk) // save psk key to config file
+
+	resp := SendPOSTRequest("https://b9db-2a01-cb06-807a-1847-400d-8ebc-f38b-efa6.ngrok-free.app/node/api-docs", "Hello World")
 
 	// Check response status code
 	if resp.StatusCode != http.StatusOK {

@@ -127,6 +127,7 @@ func GetOrCreateConfigFile() Config {
 
 	// Set the configuration file name with the full path
 	v.SetConfigFile(configFileLocation)
+	fmt.Println("configFileLocation:", configFileLocation)
 
 	// Set some configuration options
 	v.Set("server.address", "localhost")
