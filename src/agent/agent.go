@@ -22,6 +22,8 @@ const (
 
 var WrongStateError = errors.New("Can't take the operation in the current state")
 
+var BACKEND_ENDPOINT string = "https://b9db-2a01-cb06-807a-1847-400d-8ebc-f38b-efa6.ngrok-free.app"
+
 type Agent struct {
 	state int
 }
@@ -73,7 +75,7 @@ func RunPeriodicTask() {
 	ticker := time.NewTicker(interval)
 
 	for range ticker.C {
-		SendPOSTRequest("https://b9db-2a01-cb06-807a-1847-400d-8ebc-f38b-efa6.ngrok-free.app/node/api-docs", "I'm a request in RunPeriodicTask")
+		SendPOSTRequest(BACKEND_ENDPOINT+"/node/api-docs", "I'm a request in RunPeriodicTask")
 	}
 }
 
@@ -118,7 +120,7 @@ func (agent *Agent) Init() {
 	psk := GeneratePSK_key()
 	agentMetadataManager.GetOrCreateConfigFileWithSpecifiedPskKey(psk) // save psk key to config file
 
-	resp := SendPOSTRequest("https://b9db-2a01-cb06-807a-1847-400d-8ebc-f38b-efa6.ngrok-free.app/node/api-docs", "Hello World")
+	resp := SendPOSTRequest(BACKEND_ENDPOINT+"/node/api-docs", "Hello World")
 
 	// Check response status code
 	if resp.StatusCode != http.StatusOK {
