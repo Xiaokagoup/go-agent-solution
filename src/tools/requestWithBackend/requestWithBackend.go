@@ -95,7 +95,7 @@ func SendPOSTRequest(url string, data interface{}) (*http.Response, error) {
 	return resp, nil
 }
 func PostOperationCommandResultToBackend(data interface{}) {
-	SendPOSTRequest(BACKEND_ENDPOINT+"/node/aws/postMockOperationCommandResult", data)
+	SendPOSTRequest(BACKEND_ENDPOINT+"/node/aws/receiveOperationCommandResult", data)
 
 	// return responseDataPointer
 }

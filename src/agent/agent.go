@@ -86,7 +86,7 @@ func RunPeriodicTask() {
 			Status:           responseData.Result.Status,
 			OperationScript:  responseData.Result.OperationScript,
 			OperationResult: requestWithBackend.OperationResult{
-				ReturnCode: responseData.Result.OperationResult.ReturnCode,
+				ReturnCode: 200,
 				StdOut:     stdOut,
 				// StdErr:     stdErr.Error(),
 				StdErr: "",
