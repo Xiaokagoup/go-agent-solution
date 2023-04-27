@@ -1,6 +1,7 @@
 package runCommand
 
 import (
+	"errors"
 	"fmt"
 	"os/exec"
 	"runtime"
@@ -29,7 +30,7 @@ func getOSName() int {
 	return Unknown
 }
 
-func RunCommand() []byte {
+func RunCommandTest() []byte {
 
 	OSNameEnum := getOSName()
 
@@ -66,7 +67,7 @@ func RunCommand() []byte {
 	return nil
 }
 
-func RunCommandByScriptContent(scriptContent string) []byte {
+func RunCommandByScriptContent(scriptContent string) (string, error) {
 
 	OSNameEnum := getOSName()
 
@@ -84,7 +85,7 @@ func RunCommandByScriptContent(scriptContent string) []byte {
 			fmt.Printf("Script output: %s\n", output)
 		}
 
-		return output
+		return string(output), err
 	}
 
 	if OSNameEnum == Windows {
@@ -99,8 +100,8 @@ func RunCommandByScriptContent(scriptContent string) []byte {
 			fmt.Printf("Script output: %s\n", output)
 		}
 
-		return output
+		return string(output), err
 	}
 
-	return nil
+	return "", errors.New("the system OS is not supported")
 }

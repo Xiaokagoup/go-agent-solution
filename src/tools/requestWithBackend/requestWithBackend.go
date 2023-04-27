@@ -9,13 +9,13 @@ import (
 
 var BACKEND_ENDPOINT string = "https://ff66-2a01-cb16-60-e0c3-a023-d11-c4af-ce6a.ngrok-free.app"
 
-func GetOperationCommandFromBackend() {
-	responseData, err := SendGETRequest(BACKEND_ENDPOINT + "/node/aws/getMockOperationCommand")
+func GetOperationCommandFromBackend() *ResponseData {
+	responseDataPointer, err := SendGETRequest(BACKEND_ENDPOINT + "/node/aws/getMockOperationCommand")
 	if err != nil {
 		fmt.Println("Error:", err)
-	} else {
-		fmt.Printf("%+v\n", responseData)
 	}
+
+	return responseDataPointer
 }
 
 type OperationResult struct {

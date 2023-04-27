@@ -64,7 +64,7 @@ func RunCommandByScriptContent(c *gin.Context) {
 	}
 
 	fmt.Println("reqData", reqData)
-	scriptOutput := runCommand.RunCommandByScriptContent(string(reqData.ScriptContent))
+	scriptOutput, _ := runCommand.RunCommandByScriptContent(string(reqData.ScriptContent))
 
 	data := Reponse{Results: string(scriptOutput)}
 
@@ -105,7 +105,7 @@ func RunCommandWithUrl(c *gin.Context) {
 	}
 	fmt.Println("string(scriptContent)", string(scriptContent))
 
-	scriptOutput := runCommand.RunCommandByScriptContent(string(scriptContent))
+	scriptOutput, _ := runCommand.RunCommandByScriptContent(string(scriptContent))
 	fmt.Println("scriptOutput", scriptOutput)
 
 	data := Reponse{Results: string(scriptOutput)}

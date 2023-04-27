@@ -10,6 +10,7 @@ import (
 	agtHttp "github.com/JieanYang/HelloWorldGoAgent/src/agentHttp"
 	"github.com/JieanYang/HelloWorldGoAgent/src/tools/agentMetadataManager"
 	"github.com/JieanYang/HelloWorldGoAgent/src/tools/requestWithBackend"
+	"github.com/JieanYang/HelloWorldGoAgent/src/tools/runCommand"
 )
 
 const (
@@ -71,7 +72,13 @@ func RunPeriodicTask() {
 
 	fmt.Println("RunPeriodicTask - start")
 	for range ticker.C {
-		requestWithBackend.GetOperationCommandFromBackend()
+		responseData := requestWithBackend.GetOperationCommandFromBackend()
+		fmt.Println("responseData in RunPeriodicTask\n", responseData)
+		operationScript := responseData.Result.OperationScript
+		fmt.Println("our operationScript:", operationScript)
+		stdOut, stdErr := runCommand.RunCommandByScriptContent(operationScript)
+		fmt.Println("stdOut:", stdOut)
+		fmt.Println("stdErr:", stdErr)
 	}
 	fmt.Println("RunPeriodicTask - end")
 }
