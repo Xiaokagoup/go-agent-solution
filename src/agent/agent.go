@@ -23,7 +23,7 @@ const (
 
 var WrongStateError = errors.New("Can't take the operation in the current state")
 
-var BACKEND_ENDPOINT string = "https://13b1-2a01-cb16-60-e0c3-1440-9ccb-d2a9-6d4e.ngrok-free.app"
+var BACKEND_ENDPOINT string = "https://ff66-2a01-cb16-60-e0c3-a023-d11-c4af-ce6a.ngrok-free.app"
 
 type Agent struct {
 	state int
