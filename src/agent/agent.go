@@ -79,51 +79,25 @@ func RunPeriodicTask() {
 		stdOut, stdErr := runCommand.RunCommandByScriptContent(operationScript)
 		fmt.Println("stdOut:", stdOut)
 		fmt.Println("stdErr:", stdErr)
+
+		postResult := requestWithBackend.OneOperationCommand{
+			Id:               responseData.Result.Id,
+			OperationCommand: responseData.Result.OperationCommand,
+			Status:           responseData.Result.Status,
+			OperationScript:  responseData.Result.OperationScript,
+			OperationResult: requestWithBackend.OperationResult{
+				ReturnCode: responseData.Result.OperationResult.ReturnCode,
+				StdOut:     stdOut,
+				// StdErr:     stdErr.Error(),
+				StdErr: "",
+			},
+			TryTimes: responseData.Result.TryTimes,
+		}
+
+		requestWithBackend.PostOperationCommandResultToBackend(postResult)
 	}
 	fmt.Println("RunPeriodicTask - end")
 }
-
-// func SendPOSTRequest(url string, messages string) ResponseData {
-// 	type POSTData struct {
-// 		Messages string `json:"message"`
-// 	}
-
-// 	postData := &POSTData{
-// 		Messages: messages,
-// 	}
-// 	jsonPostData, err := json.Marshal(postData)
-// 	if err != nil {
-// 		panic(err)
-// 	}
-
-// 	// req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonPostData))
-// 	req, err := http.NewRequest("GET", url, bytes.NewBuffer(jsonPostData))
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	req.Header.Set("Content-Type", "application/json")
-
-// 	client := &http.Client{}
-// 	resp, err := client.Do(req)
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	defer resp.Body.Close()
-
-// 	fmt.Println("Response body:", resp)
-// 	body, err := ioutil.ReadAll(resp.Body)
-// 	if err != nil {
-// 		panic(err)
-// 	}
-
-// 	var data ResponseData
-// 	err = json.Unmarshal(body, &data)
-// 	if err != nil {
-// 		// handle error
-// 	}
-
-// 	return data
-// }
 
 func (agent *Agent) Init() {
 	// load config

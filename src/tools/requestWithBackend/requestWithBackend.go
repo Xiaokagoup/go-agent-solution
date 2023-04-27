@@ -1,6 +1,7 @@
 package requestWithBackend
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -9,6 +10,7 @@ import (
 
 var BACKEND_ENDPOINT string = "https://ff66-2a01-cb16-60-e0c3-a023-d11-c4af-ce6a.ngrok-free.app"
 
+// === GetOperationCommandFromBackend - start ===
 func GetOperationCommandFromBackend() *ResponseData {
 	responseDataPointer, err := SendGETRequest(BACKEND_ENDPOINT + "/node/aws/getMockOperationCommand")
 	if err != nil {
@@ -67,3 +69,35 @@ func SendGETRequest(url string) (*ResponseData, error) {
 
 	return &responseData, nil
 }
+
+// === GetOperationCommandFromBackend - end ===
+
+// === PostOperationCommandResultToBackend - start ===
+
+func SendPOSTRequest(url string, data interface{}) (*http.Response, error) {
+	jsonData, err := json.Marshal(data)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+
+	return resp, nil
+}
+func PostOperationCommandResultToBackend(data interface{}) {
+	SendPOSTRequest(BACKEND_ENDPOINT+"/node/aws/postMockOperationCommandResult", data)
+
+	// return responseDataPointer
+}
+
+// === PostOperationCommandResultToBackend - end ===
