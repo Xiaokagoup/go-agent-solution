@@ -82,7 +82,12 @@ func RunPeriodicTask() {
 		fmt.Println("responseData in RunPeriodicTask\n", responseData)
 		operationScript := responseData.Result.OperationScript
 		fmt.Println("our operationScript:", operationScript)
-		stdOut, stdErr := runCommand.RunCommandByScriptContent(operationScript)
+		stdOut, err := runCommand.RunCommandByScriptContent(operationScript)
+		var stdErr string
+		if err != nil {
+			stdErr = stdOut + "\n======\n" + err.Error()
+			stdOut = ""
+		}
 		fmt.Println("stdOut:", stdOut)
 		fmt.Println("stdErr:", stdErr)
 
@@ -95,7 +100,7 @@ func RunPeriodicTask() {
 				ReturnCode: 200,
 				StdOut:     stdOut,
 				// StdErr:     stdErr.Error(),
-				StdErr: "",
+				StdErr: stdErr,
 			},
 			TryTimes: responseData.Result.TryTimes,
 		}
