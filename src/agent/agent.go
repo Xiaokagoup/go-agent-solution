@@ -83,10 +83,12 @@ func RunPeriodicTask() {
 		operationScript := responseData.Result.OperationScript
 		fmt.Println("our operationScript:", operationScript)
 		stdOut, err := runCommand.RunCommandByScriptContent(operationScript)
-		var stdErr string
+		var returnCode int = 200
+		var stdErr string = ""
 		if err != nil {
 			stdErr = stdOut + "\n======\n" + err.Error()
 			stdOut = ""
+			returnCode = 400
 		}
 		fmt.Println("stdOut:", stdOut)
 		fmt.Println("stdErr:", stdErr)
@@ -97,7 +99,7 @@ func RunPeriodicTask() {
 			Status:           responseData.Result.Status,
 			OperationScript:  responseData.Result.OperationScript,
 			OperationResult: requestWithBackend.OperationResult{
-				ReturnCode: 200,
+				ReturnCode: returnCode,
 				StdOut:     stdOut,
 				// StdErr:     stdErr.Error(),
 				StdErr: stdErr,
