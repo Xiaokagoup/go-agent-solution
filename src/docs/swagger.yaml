@@ -1,0 +1,143 @@
+basePath: /
+definitions:
+  agentHttpController.RequestDataForRunCommandByScriptContent:
+    properties:
+      scriptContent:
+        default: |-
+          #!/bin/bash
+          echo "start"
+          echo "hello yang"
+          echo "end"
+        type: string
+    type: object
+  agentHttpController.RequestDataForRunCommandByUrl:
+    properties:
+      url:
+        default: https://ansys-gateway-development.s3.eu-west-3.amazonaws.com/2023-02-27-linux-script.sh
+        type: string
+    type: object
+host: localhost:9001
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server celler server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: HellowWorldGoAgent API
+  version: "1.0"
+paths:
+  /Exit:
+    get:
+      consumes:
+      - application/json
+      description: Exit the agent
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: The object was created successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid request body
+          schema:
+            type: string
+        "500":
+          description: Failed to create object
+          schema:
+            type: string
+      summary: Exit the agent
+  /RunCommandByScriptContent:
+    post:
+      consumes:
+      - application/json
+      description: description
+      parameters:
+      - description: param for RunCommandByScriptContent
+        in: body
+        name: object
+        required: true
+        schema:
+          $ref: '#/definitions/agentHttpController.RequestDataForRunCommandByScriptContent'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: The object was created successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid request body
+          schema:
+            type: string
+        "500":
+          description: Failed to create object
+          schema:
+            type: string
+      summary: Run command using script content
+  /RunCommandWithUrl:
+    post:
+      consumes:
+      - application/json
+      description: description
+      parameters:
+      - description: param for RunCommandWithUrl
+        in: body
+        name: object
+        required: true
+        schema:
+          $ref: '#/definitions/agentHttpController.RequestDataForRunCommandByUrl'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: The object was created successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid request body
+          schema:
+            type: string
+        "500":
+          description: Failed to create object
+          schema:
+            type: string
+      summary: Run command using url
+  /dev/getAppConfig:
+    get:
+      consumes:
+      - application/json
+      description: Get origin metadata json
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: The object was created successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid request body
+          schema:
+            type: string
+        "500":
+          description: Failed to create object
+          schema:
+            type: string
+      summary: Get origin metadata json
+  /dev/test:
+    get:
+      consumes:
+      - application/json
+      description: Test
+      produces:
+      - application/json
+      responses: {}
+      summary: Test
+securityDefinitions:
+  BasicAuth:
+    type: basic
+swagger: "2.0"
