@@ -67,12 +67,18 @@ func GeneratePSK_key() string {
 }
 
 func RunPeriodicTask() {
+	fmt.Println("SetUp for periodic task - start")
+
 	interval := 5 * time.Second
 	ticker := time.NewTicker(interval)
 
-	fmt.Println("RunPeriodicTask - start")
 	for range ticker.C {
-		responseData := requestWithBackend.GetOperationCommandFromBackend()
+		fmt.Println("RunPeriodicTask - start")
+
+		responseData, err := requestWithBackend.GetOperationCommandFromBackend()
+		if err != nil {
+			continue
+		}
 		fmt.Println("responseData in RunPeriodicTask\n", responseData)
 		operationScript := responseData.Result.OperationScript
 		fmt.Println("our operationScript:", operationScript)
@@ -95,8 +101,10 @@ func RunPeriodicTask() {
 		}
 
 		requestWithBackend.PostOperationCommandResultToBackend(postResult)
+		fmt.Println("RunPeriodicTask - end")
 	}
-	fmt.Println("RunPeriodicTask - end")
+
+	fmt.Println("SetUp for periodic task - end")
 }
 
 func (agent *Agent) Init() {

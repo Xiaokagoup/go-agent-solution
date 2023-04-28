@@ -3,21 +3,22 @@ package requestWithBackend
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 )
 
-var BACKEND_ENDPOINT string = "https://ff66-2a01-cb16-60-e0c3-a023-d11-c4af-ce6a.ngrok-free.app"
+var BACKEND_ENDPOINT string = "https://b7c6-90-3-247-18.ngrok-free.app"
 
 // === GetOperationCommandFromBackend - start ===
-func GetOperationCommandFromBackend() *ResponseData {
+func GetOperationCommandFromBackend() (*ResponseData, error) {
 	responseDataPointer, err := SendGETRequest(BACKEND_ENDPOINT + "/node/aws/getMockOperationCommand")
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
 
-	return responseDataPointer
+	return responseDataPointer, err
 }
 
 type OperationResult struct {
@@ -58,13 +59,16 @@ func SendGETRequest(url string) (*ResponseData, error) {
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
+		fmt.Println("ioutil.ReadAll Error:", err)
 		return nil, err
 	}
 
 	var responseData ResponseData
 	err = json.Unmarshal(body, &responseData)
 	if err != nil {
-		return nil, err
+		fmt.Println("json.Unmarshal Error:", err)
+		var newErr error = errors.New("The data returned from the backend is incorrect.\n" + err.Error())
+		return nil, newErr
 	}
 
 	return &responseData, nil
