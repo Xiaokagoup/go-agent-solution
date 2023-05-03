@@ -41,7 +41,7 @@ func (agent *Agent) Start() error {
 	agent.state = Running
 	fmt.Println("Start - agent", agent.state)
 
-	agent.Init()
+	agent.Init() // Move to main.go
 	agtHttp.StartHttp()
 	// modules
 	// heartbeat signal
