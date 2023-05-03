@@ -9,7 +9,7 @@ import (
 	"net/http"
 )
 
-var BACKEND_ENDPOINT string = "https://b7c6-90-3-247-18.ngrok-free.app"
+var BACKEND_ENDPOINT string = "https://c8cd-90-3-247-18.ngrok-free.app"
 
 // === GetOperationCommandFromBackend - start ===
 func GetOperationCommandFromBackend() (*ResponseData, error) {
