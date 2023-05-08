@@ -34,6 +34,8 @@ func NewAgent() *Agent {
 
 // Business logic
 func (agent *Agent) Start() error {
+	fmt.Println("Agent start func - start")
+
 	if agent.state != Waiting {
 		return WrongStateError
 	}
@@ -41,8 +43,10 @@ func (agent *Agent) Start() error {
 	agent.state = Running
 	fmt.Println("Start - agent", agent.state)
 
-	
+	agent.Init()
 	go agtHttp.StartHttp()
+	agent.RunPeriodicTask() // block here
+
 	// modules
 	// heartbeat signal
 
@@ -51,6 +55,8 @@ func (agent *Agent) Start() error {
 	// metrics, send to backend
 
 	// receiv message and hanle and sendback
+
+	fmt.Println("Agent start func - end")
 
 	return nil
 }
@@ -66,7 +72,7 @@ func GeneratePSK_key() string {
 	return psk
 }
 
-func RunPeriodicTask() {
+func (agent *Agent) RunPeriodicTask() {
 	fmt.Println("SetUp for periodic task - start")
 
 	interval := 5 * time.Second
@@ -121,8 +127,7 @@ func (agent *Agent) Init() {
 	// load metrics
 	// load message
 
-	RunPeriodicTask()
-
 	psk := GeneratePSK_key()
 	agentMetadataManager.GetOrCreateConfigFileWithSpecifiedPskKey(psk) // save psk key to config file
+
 }

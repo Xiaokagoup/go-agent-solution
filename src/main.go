@@ -30,6 +30,7 @@ import (
 // @externalDocs.description  OpenAPI
 // @externalDocs.url          https://swagger.io/resources/open-api/
 func main() {
+	fmt.Println("Program main func - start")
 
 	err := godotenv.Load()
 	if err != nil {
@@ -44,8 +45,9 @@ func main() {
 	fmt.Println("Hello World !")
 	agent := agt.NewAgent()
 
-	agent.Init() // Init agent
 	agent.Start()
+
+	fmt.Println("Program main func - end")
 
 	// os.Exit(0) // Close agent
 }
