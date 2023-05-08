@@ -44,6 +44,7 @@ func main() {
 	fmt.Println("Hello World !")
 	agent := agt.NewAgent()
 
+	agent.Init() // Init agent
 	agent.Start()
 
 	// os.Exit(0) // Close agent
