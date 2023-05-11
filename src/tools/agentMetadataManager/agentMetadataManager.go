@@ -74,21 +74,17 @@ func writeMetadataToFile(fileName string, metadata Metadata) error {
 	return nil
 }
 
-func GetAppDataPathByAppName(appName string) string {
+func GetAgentAppDataPathByAppName(osServiceManagerAppName string, agentAppName string) string {
 	fmt.Println("GetAppDataPathByAppName - start")
 
 	var appDataByAppNamePath string
 	switch runtime.GOOS {
 	case "linux":
-		if os.Getenv("XDG_CONFIG_HOME") != "" {
-			appDataByAppNamePath = filepath.Join(os.Getenv("XDG_CONFIG_HOME"), appName)
-		} else {
-			appDataByAppNamePath = filepath.Join(os.Getenv("HOME"), ".config", appName)
-		}
+		appDataByAppNamePath = filepath.Join("/usr/local/go", osServiceManagerAppName, agentAppName)
 	case "windows":
-		appDataByAppNamePath = filepath.Join(os.Getenv("APPDATA"), appName)
+		appDataByAppNamePath = filepath.Join("C:\\go", osServiceManagerAppName, agentAppName)
 	case "darwin":
-		appDataByAppNamePath = filepath.Join(os.Getenv("HOME"), "Library", "Application Support", appName)
+		appDataByAppNamePath = filepath.Join(os.Getenv("HOME"), "Library", "Application Support", osServiceManagerAppName, agentAppName)
 	default:
 		fmt.Println("Unsupported operating system")
 		os.Exit(1)
@@ -114,7 +110,8 @@ func (c Config) String() string {
 }
 
 func GetOrCreateConfigFile() Config {
-	appName := "HelloWorldGoAgent"
+	osServiceManagerAppName := "agentOsService"
+	agentAppName := "HelloWorldGoAgent"
 	fileName := "config.json"
 
 	// Create a new instance of Viper
@@ -124,8 +121,8 @@ func GetOrCreateConfigFile() Config {
 	v.SetConfigFile(fileName)
 
 	// Set the default appData path for Linux, Windows, and macOS systems
-	var appDataPath string = GetAppDataPathByAppName(appName)
-	configFileLocation := filepath.Join(appDataPath, fileName)
+	var agentAppDataPath string = GetAgentAppDataPathByAppName(osServiceManagerAppName, agentAppName)
+	configFileLocation := filepath.Join(agentAppDataPath, fileName)
 
 	// Set the configuration file name with the full path
 	v.SetConfigFile(configFileLocation)
@@ -138,8 +135,8 @@ func GetOrCreateConfigFile() Config {
 	v.Set("psk_key", "12345678901234567890123456789012")
 
 	// Create the configuration directory if it doesn't exist
-	if _, err := os.Stat(appDataPath); os.IsNotExist(err) {
-		os.MkdirAll(appDataPath, 0755)
+	if _, err := os.Stat(agentAppDataPath); os.IsNotExist(err) {
+		os.MkdirAll(agentAppDataPath, 0755)
 	}
 
 	// Create the configuration file if it doesn't exist
@@ -173,7 +170,8 @@ func GetOrCreateConfigFile() Config {
 }
 
 func GetOrCreateConfigFileWithSpecifiedPskKey(pskKey string) Config {
-	appName := "HelloWorldGoAgent"
+	osServiceManagerAppName := "agentOsService"
+	agentAppName := "HelloWorldGoAgent"
 	fileName := "config.json"
 
 	// Create a new instance of Viper
@@ -183,8 +181,8 @@ func GetOrCreateConfigFileWithSpecifiedPskKey(pskKey string) Config {
 	v.SetConfigFile(fileName)
 
 	// Set the default appData path for Linux, Windows, and macOS systems
-	var appDataPath string = GetAppDataPathByAppName(appName)
-	configFileLocation := filepath.Join(appDataPath, fileName)
+	var agentAppDataPath string = GetAgentAppDataPathByAppName(osServiceManagerAppName, agentAppName)
+	configFileLocation := filepath.Join(agentAppDataPath, fileName)
 
 	// Set the configuration file name with the full path
 	v.SetConfigFile(configFileLocation)
@@ -196,8 +194,8 @@ func GetOrCreateConfigFileWithSpecifiedPskKey(pskKey string) Config {
 	v.Set("psk_key", pskKey)
 
 	// Create the configuration directory if it doesn't exist
-	if _, err := os.Stat(appDataPath); os.IsNotExist(err) {
-		os.MkdirAll(appDataPath, 0755)
+	if _, err := os.Stat(agentAppDataPath); os.IsNotExist(err) {
+		os.MkdirAll(agentAppDataPath, 0755)
 	}
 
 	// Create the configuration file if it doesn't exist
