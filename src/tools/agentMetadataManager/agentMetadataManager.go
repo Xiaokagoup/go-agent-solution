@@ -111,7 +111,7 @@ func (c Config) String() string {
 
 func GetOrCreateConfigFile() Config {
 	osServiceManagerAppName := "agentOsService"
-	agentAppName := "HelloWorldGoAgent"
+	agentAppName := "helloWorldGoAgent"
 	fileName := "config.json"
 
 	// Create a new instance of Viper
@@ -171,7 +171,7 @@ func GetOrCreateConfigFile() Config {
 
 func GetOrCreateConfigFileWithSpecifiedPskKey(pskKey string) Config {
 	osServiceManagerAppName := "agentOsService"
-	agentAppName := "HelloWorldGoAgent"
+	agentAppName := "helloWorldGoAgent"
 	fileName := "config.json"
 
 	// Create a new instance of Viper
