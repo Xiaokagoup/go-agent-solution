@@ -1,10 +1,12 @@
 package agent
 
 import (
-	"crypto/rand"
-	"encoding/base64"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
+	"os"
+	"runtime"
 	"time"
 
 	agtHttp "AnsysCSPAgent/src/agentHttp"
@@ -44,8 +46,8 @@ func (agent *Agent) Start() error {
 	fmt.Println("Start - agent", agent.state)
 
 	agent.Init()
-	go agtHttp.StartHttp()
-	agent.RunPeriodicTask() // block here
+	go agtHttp.StartHttp()  // @Prod
+	agent.RunPeriodicTask() // @Prod, block here
 
 	// modules
 	// heartbeat signal
@@ -59,17 +61,6 @@ func (agent *Agent) Start() error {
 	fmt.Println("Agent start func - end")
 
 	return nil
-}
-
-func GeneratePSK_key() string {
-	// Generate PSK key
-	key := make([]byte, 32)
-	_, err := rand.Read(key)
-	if err != nil {
-		panic(err)
-	}
-	psk := base64.StdEncoding.EncodeToString(key)
-	return psk
 }
 
 func (agent *Agent) RunPeriodicTask() {
@@ -120,6 +111,10 @@ func (agent *Agent) RunPeriodicTask() {
 	fmt.Println("SetUp for periodic task - end")
 }
 
+type Original_Metadata struct {
+	PSK_Key string `json:"psk_key"`
+}
+
 func (agent *Agent) Init() {
 	// load config
 	// load modules
@@ -127,7 +122,35 @@ func (agent *Agent) Init() {
 	// load metrics
 	// load message
 
-	psk := GeneratePSK_key()
-	agentMetadataManager.GetOrCreateConfigFileWithSpecifiedPskKey(psk) // save psk key to config file
+	var originalMetadataPath string
+	if runtime.GOOS == "linux" {
+		originalMetadataPath = "/etc/.helloWorldGoAgent/original_metadata.json"
+	} else if runtime.GOOS == "windows" {
+		originalMetadataPath = "C:\\Users\\Administrator\\AppData\\Roaming\\.helloWorldGoAgent\\original_metadata.json"
+	} else {
+		fmt.Println("Unsupported operating system")
+		os.Exit(1) // @PROD
+	}
+
+	// originalMetadataPath = "/Users/jieanyang/Documents/freelancer_work/ansys/HelloWorldGoAgent/src/tools/agentMetadataManager/original_metadata.json" // @DEV
+
+	// Read the JSON file
+	originalMetaData, err := ioutil.ReadFile(originalMetadataPath)
+	if err != nil {
+		fmt.Println("Error reading file:", err)
+		os.Exit(1)
+	}
+
+	// Unmarshal the JSON data into a slice of Person structs
+	var metadata Original_Metadata
+	err = json.Unmarshal(originalMetaData, &metadata)
+	if err != nil {
+		fmt.Println("Error unmarshaling JSON:", err)
+		os.Exit(1)
+	}
+
+	fmt.Println("metadata found", metadata, metadata.PSK_Key)
+
+	agentMetadataManager.GetOrCreateConfigFileWithSpecifiedPskKey(metadata.PSK_Key) // save psk key to config file
 
 }

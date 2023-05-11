@@ -17,6 +17,7 @@ type Metadata struct {
 	Region        string `json:"region"`
 	NodeType      string `json:"nodeType"`
 	CreatedAt     string `json:"createdAt"`
+	PSK_Key       string `json:"psk_key"`
 }
 
 func main() {
@@ -29,6 +30,7 @@ func main() {
 		Region:        "eu-west-3",
 		NodeType:      "t2.micro",
 		CreatedAt:     "2023-02-16T11:22:35.040Z",
+		PSK_Key:       "12345678901234567890123456789012",
 	}
 
 	writeMetadataToFile(fileName, metadatas)
