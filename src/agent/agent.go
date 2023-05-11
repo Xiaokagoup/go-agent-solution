@@ -18,7 +18,7 @@ const (
 	Running
 )
 
-var WrongStateError = errors.New("Can't take the operation in the current state")
+var ErrWrongState = errors.New("can't take the operation in the current state")
 
 type Agent struct {
 	state int
@@ -34,15 +34,19 @@ func NewAgent() *Agent {
 
 // Business logic
 func (agent *Agent) Start() error {
+	fmt.Println("Agent start func - start")
+
 	if agent.state != Waiting {
-		return WrongStateError
+		return ErrWrongState
 	}
 
 	agent.state = Running
 	fmt.Println("Start - agent", agent.state)
 
 	agent.Init()
-	agtHttp.StartHttp()
+	go agtHttp.StartHttp()
+	agent.RunPeriodicTask() // block here
+
 	// modules
 	// heartbeat signal
 
@@ -51,6 +55,8 @@ func (agent *Agent) Start() error {
 	// metrics, send to backend
 
 	// receiv message and hanle and sendback
+
+	fmt.Println("Agent start func - end")
 
 	return nil
 }
@@ -66,7 +72,7 @@ func GeneratePSK_key() string {
 	return psk
 }
 
-func RunPeriodicTask() {
+func (agent *Agent) RunPeriodicTask() {
 	fmt.Println("SetUp for periodic task - start")
 
 	interval := 5 * time.Second
@@ -83,12 +89,12 @@ func RunPeriodicTask() {
 		operationScript := responseData.Result.OperationScript
 		fmt.Println("our operationScript:", operationScript)
 		stdOut, err := runCommand.RunCommandByScriptContent(operationScript)
-		var returnCode int = 200
+		var returnError bool = false
 		var stdErr string = ""
 		if err != nil {
 			stdErr = stdOut + "\n======\n" + err.Error()
 			stdOut = ""
-			returnCode = 400
+			returnError = true
 		}
 		fmt.Println("stdOut:", stdOut)
 		fmt.Println("stdErr:", stdErr)
@@ -99,10 +105,10 @@ func RunPeriodicTask() {
 			Status:           responseData.Result.Status,
 			OperationScript:  responseData.Result.OperationScript,
 			OperationResult: requestWithBackend.OperationResult{
-				ReturnCode: returnCode,
-				StdOut:     stdOut,
+				StdOut: stdOut,
 				// StdErr:     stdErr.Error(),
-				StdErr: stdErr,
+				StdErr:      stdErr,
+				ReturnError: returnError,
 			},
 			TryTimes: responseData.Result.TryTimes,
 		}
@@ -121,8 +127,7 @@ func (agent *Agent) Init() {
 	// load metrics
 	// load message
 
-	RunPeriodicTask()
-
 	psk := GeneratePSK_key()
 	agentMetadataManager.GetOrCreateConfigFileWithSpecifiedPskKey(psk) // save psk key to config file
+
 }
