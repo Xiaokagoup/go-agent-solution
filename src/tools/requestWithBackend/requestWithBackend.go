@@ -22,9 +22,9 @@ func GetOperationCommandFromBackend() (*ResponseData, error) {
 }
 
 type OperationResult struct {
-	ReturnCode int    `json:"returnCode"`
-	StdOut     string `json:"stdOut"`
-	StdErr     string `json:"stdErr"`
+	StdOut      string `json:"stdOut"`
+	StdErr      string `json:"stdErr"`
+	ReturnError bool   `json:"returnError"`
 }
 type OneOperationCommand struct {
 	Id               string          `json:"id"`
@@ -39,14 +39,14 @@ type ResponseData struct {
 }
 
 func (rd ResponseData) String() string {
-	return fmt.Sprintf("===============\nID: %s\nOperation Command: %s\nStatus: %s\nOperation Script: %s\nReturn Code: %d\nStdOut: %s\nStdErr: %s\nTry Times: %d\n===============\n",
+	return fmt.Sprintf("===============\nID: %s\nOperation Command: %s\nStatus: %s\nOperation Script: %s\nStdOut: %s\nStdErr: %s\nReturn Error: %t\nTry Times: %d\n===============\n",
 		rd.Result.Id,
 		rd.Result.OperationCommand,
 		rd.Result.Status,
 		rd.Result.OperationScript,
-		rd.Result.OperationResult.ReturnCode,
 		rd.Result.OperationResult.StdOut,
 		rd.Result.OperationResult.StdErr,
+		rd.Result.OperationResult.ReturnError,
 		rd.Result.TryTimes)
 }
 
