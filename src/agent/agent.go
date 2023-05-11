@@ -7,10 +7,10 @@ import (
 	"fmt"
 	"time"
 
-	agtHttp "github.com/JieanYang/HelloWorldGoAgent/src/agentHttp"
-	"github.com/JieanYang/HelloWorldGoAgent/src/tools/agentMetadataManager"
-	"github.com/JieanYang/HelloWorldGoAgent/src/tools/requestWithBackend"
-	"github.com/JieanYang/HelloWorldGoAgent/src/tools/runCommand"
+	agtHttp "AnsysCSPAgent/src/agentHttp"
+	"AnsysCSPAgent/src/tools/agentMetadataManager"
+	"AnsysCSPAgent/src/tools/requestWithBackend"
+	"AnsysCSPAgent/src/tools/runCommand"
 )
 
 const (

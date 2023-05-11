@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/JieanYang/HelloWorldGoAgent/src/tools/logger"
+	"AnsysCSPAgent/src/tools/logger"
 )
 
 func TestRunCommand(t *testing.T) {

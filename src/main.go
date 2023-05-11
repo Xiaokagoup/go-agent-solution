@@ -6,8 +6,8 @@ import (
 
 	"github.com/joho/godotenv"
 
-	agt "github.com/JieanYang/HelloWorldGoAgent/src/agent"
-	docs "github.com/JieanYang/HelloWorldGoAgent/src/docs"
+	agt "AnsysCSPAgent/src/agent"
+	docs "AnsysCSPAgent/src/docs"
 )
 
 // @title           HellowWorldGoAgent API

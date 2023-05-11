@@ -7,8 +7,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/JieanYang/HelloWorldGoAgent/src/tools/agentMetadataManager"
-	"github.com/JieanYang/HelloWorldGoAgent/src/tools/runCommand"
+	"AnsysCSPAgent/src/tools/agentMetadataManager"
+	"AnsysCSPAgent/src/tools/runCommand"
+
 	"github.com/gin-gonic/gin"
 )
 

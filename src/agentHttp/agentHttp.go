@@ -3,7 +3,8 @@ package agentHttp
 import (
 	"sync"
 
-	"github.com/JieanYang/HelloWorldGoAgent/src/agentHttp/agentHttpController"
+	"AnsysCSPAgent/src/agentHttp/agentHttpController"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
