@@ -55,9 +55,11 @@ func RunCommandByUrl(url string) (string, error) {
 
 // === runCommand with scriptContent - start ===
 func RunCommandByScriptContent(scriptContent string) (string, error) {
+	fmt.Println("RunCommandByScriptContent - start ")
+
 	OSNameEnum := TOS.GetOSName()
 
-	fmt.Println("scriptContent", scriptContent)
+	fmt.Println("RunCommandByScriptContent - scriptContent", scriptContent)
 
 	if OSNameEnum == TOS.Linux || OSNameEnum == TOS.MacOS {
 		fmt.Println("package runCommand - RunCommandByContent - Linux")
@@ -88,6 +90,8 @@ func RunCommandByScriptContent(scriptContent string) (string, error) {
 
 		return string(output), err
 	}
+
+	fmt.Println("RunCommandByScriptContent - end ")
 
 	return "", errors.New("the system OS is not supported")
 }

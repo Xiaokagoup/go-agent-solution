@@ -109,23 +109,25 @@ func (agent *Agent) RunPeriodicTask() {
 	for range ticker.C {
 		fmt.Println("RunPeriodicTask - start")
 
+		// Get new OperationCommand script from backend
 		responseData, err := requestWithBackend.GetOperationCommandFromBackend()
 		if err != nil {
+			fmt.Println("RunPeriodicTask - Error:", err)
 			continue
 		}
-		fmt.Println("responseData in RunPeriodicTask\n", responseData)
 		operationScript := responseData.Result.OperationScript
-		fmt.Println("our operationScript:", operationScript)
+		fmt.Println("RunPeriodicTask - operationScript:", operationScript)
+
+		// execute then send back result
 		stdOut, err := TRunCommand.RunCommandByScriptContent(operationScript)
 		var returnError bool = false
 		var stdErr string = ""
 		if err != nil {
+			fmt.Println("RunPeriodicTask - RunCommandByScriptContent - Error:", err)
 			stdErr = stdOut + "\n======\n" + err.Error()
 			stdOut = ""
 			returnError = true
 		}
-		fmt.Println("stdOut:", stdOut)
-		fmt.Println("stdErr:", stdErr)
 
 		postResult := TOperationCommand.OneOperationCommand{
 			Id:               responseData.Result.Id,
@@ -133,8 +135,7 @@ func (agent *Agent) RunPeriodicTask() {
 			Status:           responseData.Result.Status,
 			OperationScript:  responseData.Result.OperationScript,
 			OperationResult: TOperationCommand.OperationResult{
-				StdOut: stdOut,
-				// StdErr:     stdErr.Error(),
+				StdOut:      stdOut,
 				StdErr:      stdErr,
 				ReturnError: returnError,
 			},

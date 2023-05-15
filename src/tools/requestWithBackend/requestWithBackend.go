@@ -12,7 +12,7 @@ var BACKEND_ENDPOINT string = "https://e011-90-3-247-18.ngrok-free.app"
 func GetOperationCommandFromBackend() (*TOperationCommand.OneOperationCommandResponseData, error) {
 	responseDataPointer, err := TRequest.SendGETRequest(BACKEND_ENDPOINT + "/node/aws/getMockOperationCommand")
 	if err != nil {
-		fmt.Println("Error:", err)
+		fmt.Println("GetOperationCommandFromBackend - Error:", err)
 	}
 
 	return responseDataPointer, err

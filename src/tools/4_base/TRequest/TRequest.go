@@ -23,15 +23,15 @@ func SendGETRequest(url string) (*TOperationCommand.OneOperationCommandResponseD
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Println("ioutil.ReadAll Error:", err)
+		fmt.Println("SendGETRequest - ioutil.ReadAll - Error:", err)
 		return nil, err
 	}
 
 	var responseData TOperationCommand.OneOperationCommandResponseData
 	err = json.Unmarshal(body, &responseData)
 	if err != nil {
-		fmt.Println("json.Unmarshal Error:", err)
-		var newErr error = errors.New("The data returned from the backend is incorrect.\n" + err.Error())
+		fmt.Println("SendGETRequest - json.Unmarshal - Error:", err)
+		var newErr error = errors.New("The data returned from the backend is incorrect. " + err.Error())
 		return nil, newErr
 	}
 
