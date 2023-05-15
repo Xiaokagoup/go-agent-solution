@@ -1,7 +1,7 @@
 // Reousrce: https://www.datadoghq.com/blog/java-go-libraries/#getting-started-with-the-java-and-go-client-libraries
 // Send deflate logs returns "Request accepted for processing (always 202 empty JSON)." response
 
-package dataDogLogger
+package TDataDogLogger
 
 import (
 	"context"
