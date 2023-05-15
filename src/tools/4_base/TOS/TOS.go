@@ -1,6 +1,7 @@
 package TOS
 
 import (
+	"errors"
 	"fmt"
 	"runtime"
 )
@@ -26,4 +27,22 @@ func GetOSName() int {
 	}
 	fmt.Printf("Unknown operating system: %s\n", os)
 	return Unknown
+}
+
+func GetAgentOriginalMetadataFilePath() (string, error) {
+	var originalMetadataPath string = ""
+
+	if runtime.GOOS == "linux" {
+		originalMetadataPath = "/etc/.helloWorldGoAgent/original_metadata.json"
+	} else if runtime.GOOS == "windows" {
+		originalMetadataPath = "C:\\Users\\Administrator\\AppData\\Roaming\\.helloWorldGoAgent\\original_metadata.json"
+	} else if runtime.GOOS == "darwin" {
+		originalMetadataPath = "/Users/jieanyang/Documents/freelancer_work/ansys/HelloWorldGoAgent/src/tools/3_unit/TAgentMetadataManager//original_metadata.json" // @DEV
+	} else {
+		fmt.Println("Unsupported operating system")
+		error := errors.New("unsupported operating system")
+		return originalMetadataPath, error
+	}
+
+	return originalMetadataPath, nil
 }

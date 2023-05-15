@@ -6,12 +6,12 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"runtime"
 	"time"
 
 	agtHttp "AnsysCSPAgent/src/agentHttp"
 	"AnsysCSPAgent/src/tools/3_unit/TAgentMetadataManager"
 	"AnsysCSPAgent/src/tools/3_unit/TOperationCommand"
+	"AnsysCSPAgent/src/tools/4_base/TOS"
 	"AnsysCSPAgent/src/tools/TRunCommand"
 	"AnsysCSPAgent/src/tools/requestWithBackend"
 )
@@ -40,21 +40,12 @@ type Original_Metadata struct {
 }
 
 func (agent *Agent) Init() {
-	// load config
-	// load modules
-	// load heartbeat signal
-	// load metrics
-	// load message
+	// === load metadata config - start ===
 
-	var originalMetadataPath string
-	if runtime.GOOS == "linux" {
-		originalMetadataPath = "/etc/.helloWorldGoAgent/original_metadata.json"
-	} else if runtime.GOOS == "windows" {
-		originalMetadataPath = "C:\\Users\\Administrator\\AppData\\Roaming\\.helloWorldGoAgent\\original_metadata.json"
-	} else if runtime.GOOS == "darwin" {
-		originalMetadataPath = "/Users/jieanyang/Documents/freelancer_work/ansys/HelloWorldGoAgent/src/tools/3_unit/TAgentMetadataManager//original_metadata.json" // @DEV
-	} else {
-		fmt.Println("Unsupported operating system")
+	// Get original metadata path
+	originalMetadataPath, err := TOS.GetAgentOriginalMetadataFilePath()
+	if err != nil {
+		fmt.Println("Error getting original metadata path:", err.Error())
 		os.Exit(1) // @PROD
 	}
 
@@ -75,8 +66,10 @@ func (agent *Agent) Init() {
 
 	fmt.Println("metadata found", metadata, metadata.PSK_Key)
 
-	TAgentMetadataManager.GetOrCreateConfigFileWithSpecifiedPskKey(metadata.PSK_Key) // save psk key to config file
+	// save metadata as an app config file
+	TAgentMetadataManager.GetOrCreateConfigFileWithSpecifiedPskKey(metadata.PSK_Key)
 
+	// === load metadata config - end ===
 }
 
 // === Launch Agent - start ===
