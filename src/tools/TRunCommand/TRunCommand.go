@@ -2,13 +2,59 @@ package TRunCommand
 
 import (
 	"AnsysCSPAgent/src/tools/4_base/TOS"
+	"AnsysCSPAgent/src/tools/4_base/TRequest"
 	"errors"
 	"fmt"
+	"io/ioutil"
+	"net/http"
 	"os/exec"
 )
 
-func RunCommandByScriptContent(scriptContent string) (string, error) {
+// === runCommand with url - start ===
+type RequestDataForRunCommandByScriptContent struct {
+	ScriptContent string `json:"scriptContent" default:"#!/bin/bash\necho \"start\"\necho \"hello yang\"\necho \"end\""`
+	// ScriptContent string `json:"scriptContent" default:"Write-Output \"Windos PowerShell\"\nWrite-Output \"start\"\nWrite-Output \"hello yang\"\nWrite-Output \"end\""`
+}
+type RequestDataForRunCommandByUrl struct {
+	Url string `json:"url" default:"https://ansys-gateway-development.s3.eu-west-3.amazonaws.com/2023-02-27-linux-script.sh"`
+	// Url string `json:"url" default:"https://ansys-gateway-development.s3.eu-west-3.amazonaws.com/2023-02-27-windows-script.ps1"`
+}
 
+type RunCommandWithUrlRequestData struct {
+	Value string `json:"value"`
+	RequestDataForRunCommandByUrl
+	RequestDataForRunCommandByScriptContent
+}
+
+func RunCommandByUrl(url string) (string, error) {
+
+	// Get content from url
+	responseFromScriptUrl, err := http.Get(url)
+	if err != nil {
+		fmt.Println(err)
+		return "", err
+	}
+	defer responseFromScriptUrl.Body.Close()
+	fmt.Println("responseFromScriptUrl", responseFromScriptUrl)
+	scriptContent, err := ioutil.ReadAll(responseFromScriptUrl.Body)
+	if err != nil {
+		fmt.Println(err)
+		return "", err
+	}
+	fmt.Println("string(scriptContent)", string(scriptContent))
+
+	scriptOutput, _ := RunCommandByScriptContent(string(scriptContent))
+	fmt.Println("scriptOutput", scriptOutput)
+
+	data := TRequest.StringRequestData{Result: string(scriptOutput)}
+
+	return data.Result, nil
+}
+
+// === runCommand with url - end ===
+
+// === runCommand with scriptContent - start ===
+func RunCommandByScriptContent(scriptContent string) (string, error) {
 	OSNameEnum := TOS.GetOSName()
 
 	fmt.Println("scriptContent", scriptContent)
@@ -45,3 +91,5 @@ func RunCommandByScriptContent(scriptContent string) (string, error) {
 
 	return "", errors.New("the system OS is not supported")
 }
+
+// === runCommand with scriptContent - end ===

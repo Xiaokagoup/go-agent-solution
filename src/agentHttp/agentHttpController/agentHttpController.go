@@ -2,7 +2,6 @@ package agentHttpController
 
 import (
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"time"
@@ -14,28 +13,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type RequestDataForRunCommandByScriptContent struct {
-	ScriptContent string `json:"scriptContent" default:"#!/bin/bash\necho \"start\"\necho \"hello yang\"\necho \"end\""`
-	// ScriptContent string `json:"scriptContent" default:"Write-Output \"Windos PowerShell\"\nWrite-Output \"start\"\nWrite-Output \"hello yang\"\nWrite-Output \"end\""`
-}
-type RequestDataForRunCommandByUrl struct {
-	Url string `json:"url" default:"https://ansys-gateway-development.s3.eu-west-3.amazonaws.com/2023-02-27-linux-script.sh"`
-	// Url string `json:"url" default:"https://ansys-gateway-development.s3.eu-west-3.amazonaws.com/2023-02-27-windows-script.ps1"`
-}
-
-type RequestData struct {
-	Value string `json:"value"`
-	RequestDataForRunCommandByUrl
-	RequestDataForRunCommandByScriptContent
-}
-
 func HomeGetController(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "pong yang",
 	})
 }
 func HomePostController(c *gin.Context) {
-	var reqData RequestData
+	var reqData TRunCommand.RunCommandWithUrlRequestData
 	if err := c.ShouldBindJSON(&reqData); err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
@@ -55,7 +39,7 @@ func HomePostController(c *gin.Context) {
 // @Failure 500 {string} string "Failed to create object"
 // @Router /RunCommandByScriptContent [post]
 func RunCommandByScriptContent(c *gin.Context) {
-	var reqData RequestDataForRunCommandByScriptContent
+	var reqData TRunCommand.RequestDataForRunCommandByScriptContent
 	if err := c.ShouldBindJSON(&reqData); err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
@@ -80,7 +64,7 @@ func RunCommandByScriptContent(c *gin.Context) {
 // @Failure 500 {string} string "Failed to create object"
 // @Router /RunCommandWithUrl [post]
 func RunCommandWithUrl(c *gin.Context) {
-	var reqData RequestData
+	var reqData TRunCommand.RunCommandWithUrlRequestData
 	if err := c.ShouldBindJSON(&reqData); err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
@@ -88,27 +72,13 @@ func RunCommandWithUrl(c *gin.Context) {
 	fmt.Println("reqData", reqData)
 	fmt.Println("reqData.Url", reqData.Url)
 
-	// Get content from url
-	responseFromScriptUrl, err := http.Get(reqData.Url)
+	data, err := TRunCommand.RunCommandByUrl(reqData.Url)
 	if err != nil {
-		fmt.Println(err)
+		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
-	defer responseFromScriptUrl.Body.Close()
-	fmt.Println("responseFromScriptUrl", responseFromScriptUrl)
-	scriptContent, err := ioutil.ReadAll(responseFromScriptUrl.Body)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println("string(scriptContent)", string(scriptContent))
 
-	scriptOutput, _ := TRunCommand.RunCommandByScriptContent(string(scriptContent))
-	fmt.Println("scriptOutput", scriptOutput)
-
-	data := TRequest.StringRequestData{Result: string(scriptOutput)}
-
-	c.JSON(http.StatusOK, gin.H{"results": data})
+	c.JSON(http.StatusOK, gin.H{"result": data})
 
 }
 
