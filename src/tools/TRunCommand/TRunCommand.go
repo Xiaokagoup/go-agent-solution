@@ -1,4 +1,4 @@
-package runCommand
+package TRunCommand
 
 import (
 	"AnsysCSPAgent/src/tools/4_base/TOS"

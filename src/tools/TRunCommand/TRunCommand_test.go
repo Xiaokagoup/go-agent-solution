@@ -1,4 +1,4 @@
-package runCommand
+package TRunCommand
 
 import (
 	"fmt"
@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"AnsysCSPAgent/src/tools/4_base/TOS"
-	"AnsysCSPAgent/src/tools/logger"
 )
 
 func RunCommandTest() []byte {
@@ -48,7 +47,6 @@ func RunCommandTest() []byte {
 
 func TestRunCommand(t *testing.T) {
 	fmt.Println("Start test - runCommand.go")
-	logger.Log(("yang"))
 
 	RunCommandTest()
 

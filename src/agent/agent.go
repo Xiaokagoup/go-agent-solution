@@ -11,9 +11,9 @@ import (
 
 	agtHttp "AnsysCSPAgent/src/agentHttp"
 	"AnsysCSPAgent/src/tools/3_unit/TOperationCommand"
+	"AnsysCSPAgent/src/tools/TRunCommand"
 	"AnsysCSPAgent/src/tools/agentMetadataManager"
 	"AnsysCSPAgent/src/tools/requestWithBackend"
-	"AnsysCSPAgent/src/tools/runCommand"
 )
 
 const (
@@ -125,7 +125,7 @@ func (agent *Agent) RunPeriodicTask() {
 		fmt.Println("responseData in RunPeriodicTask\n", responseData)
 		operationScript := responseData.Result.OperationScript
 		fmt.Println("our operationScript:", operationScript)
-		stdOut, err := runCommand.RunCommandByScriptContent(operationScript)
+		stdOut, err := TRunCommand.RunCommandByScriptContent(operationScript)
 		var returnError bool = false
 		var stdErr string = ""
 		if err != nil {

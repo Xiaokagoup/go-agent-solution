@@ -7,8 +7,8 @@ import (
 	"os"
 	"time"
 
+	"AnsysCSPAgent/src/tools/TRunCommand"
 	"AnsysCSPAgent/src/tools/agentMetadataManager"
-	"AnsysCSPAgent/src/tools/runCommand"
 
 	"github.com/gin-gonic/gin"
 )
@@ -65,7 +65,7 @@ func RunCommandByScriptContent(c *gin.Context) {
 	}
 
 	fmt.Println("reqData", reqData)
-	scriptOutput, _ := runCommand.RunCommandByScriptContent(string(reqData.ScriptContent))
+	scriptOutput, _ := TRunCommand.RunCommandByScriptContent(string(reqData.ScriptContent))
 
 	data := Reponse{Results: string(scriptOutput)}
 
@@ -106,7 +106,7 @@ func RunCommandWithUrl(c *gin.Context) {
 	}
 	fmt.Println("string(scriptContent)", string(scriptContent))
 
-	scriptOutput, _ := runCommand.RunCommandByScriptContent(string(scriptContent))
+	scriptOutput, _ := TRunCommand.RunCommandByScriptContent(string(scriptContent))
 	fmt.Println("scriptOutput", scriptOutput)
 
 	data := Reponse{Results: string(scriptOutput)}
