@@ -7,15 +7,12 @@ import (
 	"os"
 	"time"
 
+	"AnsysCSPAgent/src/tools/4_base/TRequest"
 	"AnsysCSPAgent/src/tools/TRunCommand"
 	"AnsysCSPAgent/src/tools/agentMetadataManager"
 
 	"github.com/gin-gonic/gin"
 )
-
-type Reponse struct {
-	Results string
-}
 
 type RequestDataForRunCommandByScriptContent struct {
 	ScriptContent string `json:"scriptContent" default:"#!/bin/bash\necho \"start\"\necho \"hello yang\"\necho \"end\""`
@@ -67,7 +64,7 @@ func RunCommandByScriptContent(c *gin.Context) {
 	fmt.Println("reqData", reqData)
 	scriptOutput, _ := TRunCommand.RunCommandByScriptContent(string(reqData.ScriptContent))
 
-	data := Reponse{Results: string(scriptOutput)}
+	data := TRequest.StringRequestData{Result: string(scriptOutput)}
 
 	c.JSON(http.StatusOK, gin.H{"results": data})
 
@@ -109,7 +106,7 @@ func RunCommandWithUrl(c *gin.Context) {
 	scriptOutput, _ := TRunCommand.RunCommandByScriptContent(string(scriptContent))
 	fmt.Println("scriptOutput", scriptOutput)
 
-	data := Reponse{Results: string(scriptOutput)}
+	data := TRequest.StringRequestData{Result: string(scriptOutput)}
 
 	c.JSON(http.StatusOK, gin.H{"results": data})
 

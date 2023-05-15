@@ -10,23 +10,11 @@ import (
 	"net/http"
 )
 
-type ResponseData struct {
-	Result TOperationCommand.OneOperationCommand `json:"result"`
+type StringRequestData struct {
+	Result string `json:"result"`
 }
 
-func (rd ResponseData) String() string {
-	return fmt.Sprintf("===============\nID: %s\nOperation Command: %s\nStatus: %s\nOperation Script: %s\nStdOut: %s\nStdErr: %s\nReturn Error: %t\nTry Times: %d\n===============\n",
-		rd.Result.Id,
-		rd.Result.OperationCommand,
-		rd.Result.Status,
-		rd.Result.OperationScript,
-		rd.Result.OperationResult.StdOut,
-		rd.Result.OperationResult.StdErr,
-		rd.Result.OperationResult.ReturnError,
-		rd.Result.TryTimes)
-}
-
-func SendGETRequest(url string) (*ResponseData, error) {
+func SendGETRequest(url string) (*TOperationCommand.OneOperationCommandResponseData, error) {
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, err
@@ -39,7 +27,7 @@ func SendGETRequest(url string) (*ResponseData, error) {
 		return nil, err
 	}
 
-	var responseData ResponseData
+	var responseData TOperationCommand.OneOperationCommandResponseData
 	err = json.Unmarshal(body, &responseData)
 	if err != nil {
 		fmt.Println("json.Unmarshal Error:", err)
