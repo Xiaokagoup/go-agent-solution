@@ -6,9 +6,9 @@ import (
 	"os"
 	"time"
 
+	"AnsysCSPAgent/src/tools/3_unit/TAgentMetadataManager"
 	"AnsysCSPAgent/src/tools/4_base/TRequest"
 	"AnsysCSPAgent/src/tools/TRunCommand"
-	"AnsysCSPAgent/src/tools/agentMetadataManager"
 
 	"github.com/gin-gonic/gin"
 )
@@ -112,7 +112,7 @@ func Exit(c *gin.Context) {
 // @Failure 500 {string} string "Failed to create object"
 // @Router /dev/getAppConfig [get]
 func GetAppConfig(c *gin.Context) {
-	config := agentMetadataManager.GetOrCreateConfigFile()
+	config := TAgentMetadataManager.GetOrCreateConfigFile()
 	c.JSON(http.StatusOK, gin.H{"results": config})
 }
 

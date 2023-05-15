@@ -1,4 +1,4 @@
-package agentMetadataManager
+package TAgentMetadataManager
 
 import (
 	"fmt"

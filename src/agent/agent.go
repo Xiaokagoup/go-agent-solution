@@ -10,9 +10,9 @@ import (
 	"time"
 
 	agtHttp "AnsysCSPAgent/src/agentHttp"
+	"AnsysCSPAgent/src/tools/3_unit/TAgentMetadataManager"
 	"AnsysCSPAgent/src/tools/3_unit/TOperationCommand"
 	"AnsysCSPAgent/src/tools/TRunCommand"
-	"AnsysCSPAgent/src/tools/agentMetadataManager"
 	"AnsysCSPAgent/src/tools/requestWithBackend"
 )
 
@@ -76,7 +76,7 @@ func (agent *Agent) Init() {
 
 	fmt.Println("metadata found", metadata, metadata.PSK_Key)
 
-	agentMetadataManager.GetOrCreateConfigFileWithSpecifiedPskKey(metadata.PSK_Key) // save psk key to config file
+	TAgentMetadataManager.GetOrCreateConfigFileWithSpecifiedPskKey(metadata.PSK_Key) // save psk key to config file
 
 }
 
