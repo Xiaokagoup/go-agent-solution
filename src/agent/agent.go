@@ -80,7 +80,7 @@ func (agent *Agent) Init() {
 
 }
 
-// Business logic
+// === Launch Agent - start ===
 func (agent *Agent) Launch() error {
 	fmt.Println("Agent start func - start")
 
@@ -91,24 +91,23 @@ func (agent *Agent) Launch() error {
 	agent.state = Running
 	fmt.Println("Start - agent", agent.state)
 
+	// Init agent config.json file
 	agent.Init()
-	go agtHttp.StartHttp()  // @Prod
+
+	// Start web interface for development
+	go agtHttp.StartHttp() // @DEV
+
+	// Get new OperationCommand, execute then send back result
 	agent.RunPeriodicTask() // @Prod, block here
-
-	// modules
-	// heartbeat signal
-
-	// receive message,
-
-	// metrics, send to backend
-
-	// receiv message and hanle and sendback
 
 	fmt.Println("Agent start func - end")
 
 	return nil
 }
 
+// === Launch Agent - end ===
+
+// === Business logic - polling backend - start ===
 func (agent *Agent) RunPeriodicTask() {
 	fmt.Println("SetUp for periodic task - start")
 
@@ -156,3 +155,5 @@ func (agent *Agent) RunPeriodicTask() {
 
 	fmt.Println("SetUp for periodic task - end")
 }
+
+// === Business logic - polling backend - end ===
