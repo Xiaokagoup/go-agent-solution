@@ -45,7 +45,7 @@ func main() {
 	fmt.Println("Hello World !")
 	agent := agt.NewAgent()
 
-	agent.Start()
+	agent.Launch()
 
 	fmt.Println("Program main func - end")
 

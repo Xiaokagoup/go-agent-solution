@@ -81,7 +81,7 @@ func (agent *Agent) Init() {
 }
 
 // Business logic
-func (agent *Agent) Start() error {
+func (agent *Agent) Launch() error {
 	fmt.Println("Agent start func - start")
 
 	if agent.state != Waiting {
