@@ -103,47 +103,56 @@ func (agent *Agent) Launch() error {
 func (agent *Agent) RunPeriodicTask() {
 	fmt.Println("SetUp for periodic task - start")
 
-	interval := 5 * time.Second
-	ticker := time.NewTicker(interval)
+	defaultInterval := 5 * time.Second
+	ticker := time.NewTicker(defaultInterval)
+	intervalChan := make(chan time.Duration)
 
-	for range ticker.C {
-		fmt.Println("RunPeriodicTask - start")
+	for {
+		select {
+		case <-ticker.C:
+			fmt.Println("RunPeriodicTask - start")
 
-		// Get new OperationCommand script from backend
-		responseData, err := requestWithBackend.GetOperationCommandFromBackend()
-		if err != nil {
-			fmt.Println("RunPeriodicTask - Error:", err)
-			continue
+			// Get new OperationCommand script from backend
+			responseData, err := requestWithBackend.GetOperationCommandFromBackend()
+			if err != nil {
+				fmt.Println("RunPeriodicTask - Error:", err)
+				continue
+			}
+			operationScript := responseData.Result.OperationScript
+			fmt.Println("RunPeriodicTask - operationScript:", operationScript)
+
+			// execute then send back result
+			stdOut, err := TRunCommand.RunCommandByScriptContent(operationScript)
+			var returnError bool = false
+			var stdErr string = ""
+			if err != nil {
+				fmt.Println("RunPeriodicTask - RunCommandByScriptContent - Error:", err)
+				stdErr = stdOut + "\n======\n" + err.Error()
+				stdOut = ""
+				returnError = true
+			}
+
+			postResult := TOperationCommand.OneOperationCommand{
+				Id:               responseData.Result.Id,
+				OperationCommand: responseData.Result.OperationCommand,
+				Status:           responseData.Result.Status,
+				OperationScript:  responseData.Result.OperationScript,
+				OperationResult: TOperationCommand.OperationResult{
+					StdOut:      stdOut,
+					StdErr:      stdErr,
+					ReturnError: returnError,
+				},
+				TryTimes: responseData.Result.TryTimes,
+			}
+
+			requestWithBackend.PostOperationCommandResultToBackend(postResult)
+			fmt.Println("RunPeriodicTask - end")
+
+		case newInterval := <-intervalChan:
+			fmt.Println("RunPeriodicTask - reset new newInterval:", newInterval)
+			ticker.Stop()
+			ticker = time.NewTicker(newInterval)
 		}
-		operationScript := responseData.Result.OperationScript
-		fmt.Println("RunPeriodicTask - operationScript:", operationScript)
-
-		// execute then send back result
-		stdOut, err := TRunCommand.RunCommandByScriptContent(operationScript)
-		var returnError bool = false
-		var stdErr string = ""
-		if err != nil {
-			fmt.Println("RunPeriodicTask - RunCommandByScriptContent - Error:", err)
-			stdErr = stdOut + "\n======\n" + err.Error()
-			stdOut = ""
-			returnError = true
-		}
-
-		postResult := TOperationCommand.OneOperationCommand{
-			Id:               responseData.Result.Id,
-			OperationCommand: responseData.Result.OperationCommand,
-			Status:           responseData.Result.Status,
-			OperationScript:  responseData.Result.OperationScript,
-			OperationResult: TOperationCommand.OperationResult{
-				StdOut:      stdOut,
-				StdErr:      stdErr,
-				ReturnError: returnError,
-			},
-			TryTimes: responseData.Result.TryTimes,
-		}
-
-		requestWithBackend.PostOperationCommandResultToBackend(postResult)
-		fmt.Println("RunPeriodicTask - end")
 	}
 
 	fmt.Println("SetUp for periodic task - end")
