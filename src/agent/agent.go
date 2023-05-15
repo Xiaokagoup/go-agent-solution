@@ -51,13 +51,12 @@ func (agent *Agent) Init() {
 		originalMetadataPath = "/etc/.helloWorldGoAgent/original_metadata.json"
 	} else if runtime.GOOS == "windows" {
 		originalMetadataPath = "C:\\Users\\Administrator\\AppData\\Roaming\\.helloWorldGoAgent\\original_metadata.json"
+	} else if runtime.GOOS == "darwin" {
+		originalMetadataPath = "/Users/jieanyang/Documents/freelancer_work/ansys/HelloWorldGoAgent/src/tools/3_unit/TAgentMetadataManager//original_metadata.json" // @DEV
 	} else {
 		fmt.Println("Unsupported operating system")
-		return     // @DEV
 		os.Exit(1) // @PROD
 	}
-
-	// originalMetadataPath = "/Users/jieanyang/Documents/freelancer_work/ansys/HelloWorldGoAgent/src/tools/agentMetadataManager/original_metadata.json" // @DEV
 
 	// Read the JSON file
 	originalMetaData, err := ioutil.ReadFile(originalMetadataPath)
