@@ -10,7 +10,7 @@ import (
 	"time"
 
 	agtHttp "AnsysCSPAgent/src/agentHttp"
-	"AnsysCSPAgent/src/tools/4_base/TRequest"
+	"AnsysCSPAgent/src/tools/3_unit/TOperationCommand"
 	"AnsysCSPAgent/src/tools/agentMetadataManager"
 	"AnsysCSPAgent/src/tools/requestWithBackend"
 	"AnsysCSPAgent/src/tools/runCommand"
@@ -136,12 +136,12 @@ func (agent *Agent) RunPeriodicTask() {
 		fmt.Println("stdOut:", stdOut)
 		fmt.Println("stdErr:", stdErr)
 
-		postResult := TRequest.OneOperationCommand{
+		postResult := TOperationCommand.OneOperationCommand{
 			Id:               responseData.Result.Id,
 			OperationCommand: responseData.Result.OperationCommand,
 			Status:           responseData.Result.Status,
 			OperationScript:  responseData.Result.OperationScript,
-			OperationResult: TRequest.OperationResult{
+			OperationResult: TOperationCommand.OperationResult{
 				StdOut: stdOut,
 				// StdErr:     stdErr.Error(),
 				StdErr:      stdErr,
