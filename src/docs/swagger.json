@@ -1,0 +1,264 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a sample server celler server.",
+        "title": "HellowWorldGoAgent API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "url": "http://www.swagger.io/support",
+            "email": "support@swagger.io"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:9001",
+    "basePath": "/",
+    "paths": {
+        "/Exit": {
+            "get": {
+                "description": "Exit the agent",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Exit the agent",
+                "responses": {
+                    "200": {
+                        "description": "Exit agent successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to create object",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/RunCommandByScriptContent": {
+            "post": {
+                "description": "description",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Run command using script content",
+                "parameters": [
+                    {
+                        "description": "param for RunCommandByScriptContent",
+                        "name": "object",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/TRunCommand.RequestDataForRunCommandByScriptContent"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Run operationCommand successfully",
+                        "schema": {
+                            "$ref": "#/definitions/TOperationCommand.OneOperationCommandResponseData"
+                        }
+                    },
+                    "502": {
+                        "description": "Backend service error or down",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/RunCommandWithUrl": {
+            "post": {
+                "description": "description",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Run command using url",
+                "deprecated": true,
+                "parameters": [
+                    {
+                        "description": "param for RunCommandWithUrl",
+                        "name": "object",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/TRunCommand.RequestDataForRunCommandByUrl"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "The object was created successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request body",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to create object",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/dev/getAppConfig": {
+            "get": {
+                "description": "Get origin metadata json",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get origin metadata json",
+                "responses": {
+                    "200": {
+                        "description": "Get configData successfully",
+                        "schema": {
+                            "$ref": "#/definitions/TAgentMetadataManager.ConfigResponseData"
+                        }
+                    }
+                }
+            }
+        },
+        "/dev/test": {
+            "get": {
+                "description": "Test",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Test",
+                "responses": {}
+            }
+        }
+    },
+    "definitions": {
+        "TAgentMetadataManager.Config": {
+            "type": "object",
+            "properties": {
+                "configFileLocation": {
+                    "type": "string"
+                },
+                "psk_key": {
+                    "type": "string"
+                },
+                "server": {
+                    "type": "object",
+                    "properties": {
+                        "host": {
+                            "type": "string"
+                        },
+                        "port": {
+                            "type": "integer"
+                        }
+                    }
+                }
+            }
+        },
+        "TAgentMetadataManager.ConfigResponseData": {
+            "type": "object",
+            "properties": {
+                "result": {
+                    "$ref": "#/definitions/TAgentMetadataManager.Config"
+                }
+            }
+        },
+        "TOperationCommand.OneOperationCommand": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "operationCommand": {
+                    "type": "string"
+                },
+                "operationResult": {
+                    "$ref": "#/definitions/TOperationCommand.OperationResult"
+                },
+                "operationScript": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "tryTimes": {
+                    "type": "integer"
+                }
+            }
+        },
+        "TOperationCommand.OneOperationCommandResponseData": {
+            "type": "object",
+            "properties": {
+                "result": {
+                    "$ref": "#/definitions/TOperationCommand.OneOperationCommand"
+                }
+            }
+        },
+        "TOperationCommand.OperationResult": {
+            "type": "object",
+            "properties": {
+                "returnError": {
+                    "type": "boolean"
+                },
+                "stdErr": {
+                    "type": "string"
+                },
+                "stdOut": {
+                    "type": "string"
+                }
+            }
+        },
+        "TRunCommand.RequestDataForRunCommandByScriptContent": {
+            "type": "object",
+            "properties": {
+                "scriptContent": {
+                    "type": "string",
+                    "default": "#!/bin/bash\necho \"start\"\necho \"hello yang\"\necho \"end\""
+                }
+            }
+        },
+        "TRunCommand.RequestDataForRunCommandByUrl": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "default": "https://ansys-gateway-development.s3.eu-west-3.amazonaws.com/2023-02-27-linux-script.sh"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "BasicAuth": {
+            "type": "basic"
+        }
+    }
+}
