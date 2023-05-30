@@ -78,7 +78,7 @@ func RunCommandByScriptContent(scriptContent string) (string, error) {
 
 	if OSNameEnum == TOS.Windows {
 		fmt.Println("package runCommand - RunCommand - Windows")
-		// cmd := exec.Command("cmd", "/C", "C:\\Users\\jieanyang\\Documents\\freelancer_work\\ansys\\HelloWorldGoAgent\\src\\common\\runCommand\\script.bat")
+		// cmd := exec.Command("cmd", "/C", "C:\\Users\\jieanyang\\Documents\\freelancer_work\\ansys\\ansysCSPAgent\\src\\common\\runCommand\\script.bat")
 		cmd := exec.Command("powershell.exe", scriptContent)
 		output, err := cmd.CombinedOutput()
 
