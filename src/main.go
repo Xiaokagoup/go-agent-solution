@@ -10,7 +10,7 @@ import (
 	docs "AnsysCSPAgent/src/docs"
 )
 
-// @title           HellowWorldGoAgent API
+// @title           AnsysCSPAgent API
 // @version         1.0
 // @description     This is a sample server celler server.
 // @termsOfService  http://swagger.io/terms/
