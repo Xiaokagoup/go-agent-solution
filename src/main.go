@@ -5,7 +5,6 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	"github.com/swaggo/swag/example/basic/docs"
 
 	agt "AnsysCSPAgent/src/agent"
 )
@@ -36,8 +35,6 @@ func main() {
 
 	host := os.Getenv("HOST")
 	fmt.Println("host", host)
-
-	docs.SwaggerInfo.Host = host // @DEV
 
 	fmt.Println("Hello World !")
 	agent := agt.NewAgent()
