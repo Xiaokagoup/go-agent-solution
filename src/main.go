@@ -5,9 +5,9 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
+	"github.com/swaggo/swag/example/basic/docs"
 
 	agt "AnsysCSPAgent/src/agent"
-	docs "AnsysCSPAgent/src/docs"
 )
 
 // @title           AnsysCSPAgent API
