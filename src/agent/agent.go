@@ -12,10 +12,10 @@ import (
 	"os"
 	"time"
 
-	"AnsysCSPAgent/src/tools/3_unit/TAgentMetadataManager"
-	"AnsysCSPAgent/src/tools/3_unit/TOperationCommand"
-	"AnsysCSPAgent/src/tools/4_base/TOS"
+	"AnsysCSPAgent/src/tools/TAgentMetadataManager"
+	"AnsysCSPAgent/src/tools/TOperationCommand"
 	"AnsysCSPAgent/src/tools/TRunCommand"
+	"AnsysCSPAgent/src/tools/common/TOS"
 	"AnsysCSPAgent/src/tools/requestWithBackend"
 )
 

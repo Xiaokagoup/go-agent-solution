@@ -5,8 +5,8 @@
 package TRunCommand
 
 import (
-	"AnsysCSPAgent/src/tools/4_base/TOS"
-	"AnsysCSPAgent/src/tools/4_base/TRequest"
+	"AnsysCSPAgent/src/tools/common/TOS"
+	"AnsysCSPAgent/src/tools/common/TRequest"
 	"errors"
 	"fmt"
 	"io/ioutil"

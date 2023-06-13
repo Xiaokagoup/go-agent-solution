@@ -5,7 +5,7 @@
 package TRequest
 
 import (
-	"AnsysCSPAgent/src/tools/3_unit/TOperationCommand"
+	"AnsysCSPAgent/src/tools/TOperationCommand"
 	"bytes"
 	"encoding/json"
 	"errors"
