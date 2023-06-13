@@ -38,6 +38,29 @@ func NewAgent() *Agent {
 	return &agent
 }
 
+// === Launch Agent - start ===
+func (agent *Agent) Launch() error {
+	fmt.Println("Agent start func - start")
+
+	if agent.state != Waiting {
+		return ErrWrongState
+	}
+
+	agent.state = Running
+	fmt.Println("Start - agent", agent.state)
+
+	// Init agent config.json file
+	agent.Init()
+
+	// Get new OperationCommand, execute then send back result
+	agent.RunPeriodicTask() // @Prod, block here
+
+	fmt.Println("Agent start func - end")
+
+	return nil
+}
+
+// === Launch Agent - end ===
 type Original_Metadata struct {
 	PSK_Key string `json:"psk_key"`
 }
@@ -74,30 +97,6 @@ func (agent *Agent) Init() {
 
 	// === load metadata config - end ===
 }
-
-// === Launch Agent - start ===
-func (agent *Agent) Launch() error {
-	fmt.Println("Agent start func - start")
-
-	if agent.state != Waiting {
-		return ErrWrongState
-	}
-
-	agent.state = Running
-	fmt.Println("Start - agent", agent.state)
-
-	// Init agent config.json file
-	agent.Init()
-
-	// Get new OperationCommand, execute then send back result
-	agent.RunPeriodicTask() // @Prod, block here
-
-	fmt.Println("Agent start func - end")
-
-	return nil
-}
-
-// === Launch Agent - end ===
 
 // === Business logic - polling backend - start ===
 func RunPeriodicTask_handleBackendRequestErrorCase(paraErrorCount int, ticker *time.Ticker) {
