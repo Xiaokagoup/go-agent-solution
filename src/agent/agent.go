@@ -13,8 +13,8 @@ import (
 	"time"
 
 	"AnsysCSPAgent/src/tools/TAgentMetadataManager"
-	"AnsysCSPAgent/src/tools/TOperationCommand"
 	"AnsysCSPAgent/src/tools/TRunCommand"
+	"AnsysCSPAgent/src/tools/common/TOperationCommand"
 	"AnsysCSPAgent/src/tools/common/TPath"
 	"AnsysCSPAgent/src/tools/requestWithBackend"
 )

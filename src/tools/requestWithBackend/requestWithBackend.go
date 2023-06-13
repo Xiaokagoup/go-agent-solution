@@ -5,7 +5,7 @@
 package requestWithBackend
 
 import (
-	"AnsysCSPAgent/src/tools/TOperationCommand"
+	"AnsysCSPAgent/src/tools/common/TOperationCommand"
 	"AnsysCSPAgent/src/tools/common/TRequest"
 	"fmt"
 )
