@@ -15,7 +15,7 @@ import (
 	"AnsysCSPAgent/src/tools/TAgentMetadataManager"
 	"AnsysCSPAgent/src/tools/TOperationCommand"
 	"AnsysCSPAgent/src/tools/TRunCommand"
-	"AnsysCSPAgent/src/tools/common/TOS"
+	"AnsysCSPAgent/src/tools/common/TPath"
 	"AnsysCSPAgent/src/tools/requestWithBackend"
 )
 
@@ -69,7 +69,7 @@ func (agent *Agent) Init() {
 	// === load metadata config - start ===
 
 	// Get original metadata path
-	originalMetadataPath, err := TOS.GetAgentOriginalMetadataFilePath()
+	originalMetadataPath, err := TPath.GetAgentOriginalMetadataFilePath()
 	if err != nil {
 		fmt.Println("Error getting original metadata path:", err.Error())
 		os.Exit(1) // @PROD
