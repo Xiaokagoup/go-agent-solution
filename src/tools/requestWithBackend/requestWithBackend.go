@@ -10,7 +10,7 @@ import (
 	"fmt"
 )
 
-var BACKEND_ENDPOINT string = "https://0822-2a01-cb08-ad0-f700-b885-c4bc-fd0c-bc93.ngrok-free.app"
+var BACKEND_ENDPOINT string = "http://ec2-3-121-159-217.eu-central-1.compute.amazonaws.com/request/jieayang"
 
 // === GetOperationCommandFromBackend - start ===
 func GetOperationCommandFromBackend() (*TOperationCommand.OneOperationCommandResponseData, error) {
