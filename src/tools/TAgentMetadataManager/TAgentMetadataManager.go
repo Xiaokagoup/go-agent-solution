@@ -80,7 +80,7 @@ func (m Metadata) String() string {
 		m.ClientId, m.CloudProvider, m.Region, m.NodeType, m.CreatedAt, m.PSK_Key)
 }
 
-func GetOriginalMetadataFileContent() (*Metadata, error) {
+func GetOriginalMetadataFileContentFromBackend() (*Metadata, error) {
 	// Get original metadata path
 	originalMetadataPath, err := TPath.GetAgentOriginalMetadataFilePath()
 	if err != nil {

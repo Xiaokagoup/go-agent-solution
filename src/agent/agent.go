@@ -62,9 +62,9 @@ func (agent *Agent) Launch() error {
 func (agent *Agent) Init() {
 	// === load metadata config - start ===
 
-	originalMetadata, err := TAgentMetadataManager.GetOriginalMetadataFileContent()
+	originalMetadata, err := TAgentMetadataManager.GetOriginalMetadataFileContentFromBackend()
 	if err != nil {
-		fmt.Println("Error reading original metadata file:", err.Error())
+		fmt.Println("Error reading original metadata file from backend:", err.Error())
 		os.Exit(1) // @PROD
 	}
 
