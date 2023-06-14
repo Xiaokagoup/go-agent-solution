@@ -5,10 +5,8 @@
 package agent
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"time"
 
@@ -61,9 +59,6 @@ func (agent *Agent) Launch() error {
 }
 
 // === Launch Agent - end ===
-type Original_Metadata struct {
-	PSK_Key string `json:"psk_key"`
-}
 
 func (agent *Agent) Init() {
 	// === load metadata config - start ===
@@ -76,24 +71,14 @@ func (agent *Agent) Init() {
 	}
 
 	// Read the JSON file
-	originalMetaData, err := ioutil.ReadFile(originalMetadataPath)
+	originalMetadata, err := TAgentMetadataManager.ReadMetadataFromFile(originalMetadataPath)
 	if err != nil {
-		fmt.Println("Error reading file:", err)
-		os.Exit(1)
+		fmt.Println("Error reading original metadata file:", err.Error())
+		os.Exit(1) // @PROD
 	}
-
-	// Unmarshal the JSON data into a slice of Person structs
-	var metadata Original_Metadata
-	err = json.Unmarshal(originalMetaData, &metadata)
-	if err != nil {
-		fmt.Println("Error unmarshaling JSON:", err)
-		os.Exit(1)
-	}
-
-	fmt.Println("metadata found", metadata, metadata.PSK_Key)
 
 	// save metadata as an app config file
-	TAgentMetadataManager.GetOrCreateConfigFileWithSpecifiedPskKey(metadata.PSK_Key)
+	TAgentMetadataManager.GetOrCreateConfigFile(originalMetadata)
 
 	// === load metadata config - end ===
 }

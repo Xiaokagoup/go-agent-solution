@@ -9,7 +9,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"os"
 	"path/filepath"
 
 	"github.com/spf13/viper"
@@ -20,7 +19,7 @@ func main() {
 	fileName := "metadata.json"
 
 	metadatas := Metadata{
-		ClientId:      "3",
+		ClientId:      "4",
 		CloudProvider: "AWS",
 		Region:        "eu-west-3",
 		NodeType:      "t2.micro",
@@ -28,17 +27,16 @@ func main() {
 		PSK_Key:       "12345678901234567890123456789012",
 	}
 
-	writeMetadataToFile(fileName, metadatas)
+	writeMetadataToFile(fileName, &metadatas)
 
-	fileContent, _ := readMetadataFromFile(fileName)
-	fmt.Printf("fileContent %T, %v \n", fileContent, fileContent)
-	fmt.Println("fileContent", *fileContent)
+	fileContent, _ := ReadMetadataFromFile(fileName)
 
+	fmt.Printf("Metadata: %+v\n", fileContent)
 }
 
-func readMetadataFromFile(fileName string) (*Metadata, error) {
+func ReadMetadataFromFile(filePath string) (*Metadata, error) {
 	// Read the contents of the file
-	data, err := ioutil.ReadFile(fileName)
+	data, err := ioutil.ReadFile(filePath)
 	if err != nil {
 		return nil, err
 	}
@@ -53,20 +51,20 @@ func readMetadataFromFile(fileName string) (*Metadata, error) {
 	return metadata, nil
 }
 
-func writeMetadataToFile(fileName string, metadata Metadata) error {
+func writeMetadataToFile(filePath string, metadata *Metadata) (*Metadata, error) {
 	// Convert the slice of Usser structs to JSON data
 	data, err := json.Marshal(metadata)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	// Write the JSON data to the file
-	err = ioutil.WriteFile(fileName, data, 0644)
+	err = ioutil.WriteFile(filePath, data, 0644)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return metadata, nil
 }
 
 type Metadata struct {
@@ -78,25 +76,30 @@ type Metadata struct {
 	PSK_Key       string `json:"psk_key"`
 }
 
-type ConfigResponseData struct {
-	Result Config `json:"result"`
+func (m Metadata) String() string {
+	return fmt.Sprintf("ClientId: %s, CloudProvider: %s, Region: %s, NodeType: %s, CreatedAt: %s, PSK_Key: %s",
+		m.ClientId, m.CloudProvider, m.Region, m.NodeType, m.CreatedAt, m.PSK_Key)
 }
 
-type Config struct {
-	Server struct {
-		Host string `json:"host"`
-		Port int    `json:"port"`
-	} `json:"server"`
-	ConfigFileLocation string `json:"configFileLocation"`
-	PSK_Key            string `json:"psk_key"`
-}
+// type ConfigResponseData struct {
+// 	Result Config `json:"result"`
+// }
+
+// type Config struct {
+// 	Server struct {
+// 		Host string `json:"host"`
+// 		Port int    `json:"port"`
+// 	} `json:"server"`
+// 	ConfigFileLocation string `json:"configFileLocation"`
+// 	PSK_Key            string `json:"psk_key"`
+// }
 
 // To Custimize the output of the struct Config when printing it
-func (c Config) String() string {
-	return fmt.Sprintf("Host: %s, Port: %d", c.Server.Host, c.Server.Port)
-}
+// func (c Config) String() string {
+// 	return fmt.Sprintf("Host: %s, Port: %d", c.Server.Host, c.Server.Port)
+// }
 
-func GetConfigFileContent() (Config, error) {
+func GetOriginalMetadataFileContent() (*Metadata, error) {
 	osServiceManagerAppName := "ansysCSPAgentManagerService"
 	agentAppName := "ansysCSPAgent"
 	fileName := "config.json"
@@ -110,82 +113,42 @@ func GetConfigFileContent() (Config, error) {
 	// Set the default appData path for Linux, Windows, and macOS systems
 	var agentAppDataPath string = TPath.GetAgentAppDataPathByAppName(osServiceManagerAppName, agentAppName)
 	configFileLocation := filepath.Join(agentAppDataPath, fileName)
-
-	// Set the configuration file name with the full path
-	v.SetConfigFile(configFileLocation)
-	fmt.Println("configFileLocation:", configFileLocation)
 
 	// Read the configuration file
-	err := v.ReadInConfig()
+	fileContent, err := ReadMetadataFromFile(configFileLocation)
 	if err != nil {
 		fmt.Printf("Error reading config file: %v\n", err)
-		return Config{}, err
+		return nil, err // empty Metadata object
 	}
 
-	var config Config
-	err = v.Unmarshal(&config)
-	if err != nil {
-		panic(fmt.Errorf("unable to decode into struct, %v", err))
-	}
-
-	return config, nil
+	return fileContent, nil
 }
 
-func GetOrCreateConfigFileWithSpecifiedPskKey(pskKey string) Config {
+func GetOrCreateConfigFile(metaData *Metadata) (*Metadata, error) {
 	osServiceManagerAppName := "ansysCSPAgentManagerService"
 	agentAppName := "ansysCSPAgent"
 	fileName := "config.json"
-
-	// Create a new instance of Viper
-	v := viper.New()
-
-	// Set the configuration file name
-	v.SetConfigFile(fileName)
 
 	// Set the default appData path for Linux, Windows, and macOS systems
 	var agentAppDataPath string = TPath.GetAgentAppDataPathByAppName(osServiceManagerAppName, agentAppName)
 	configFileLocation := filepath.Join(agentAppDataPath, fileName)
 
-	// Set the configuration file name with the full path
-	v.SetConfigFile(configFileLocation)
-
-	// Set some configuration options
-	v.Set("server.address", "localhost")
-	v.Set("server.port", 8080)
-	v.Set("configFileLocation", configFileLocation)
-	v.Set("psk_key", pskKey)
-
-	// Create the configuration directory if it doesn't exist
-	if _, err := os.Stat(agentAppDataPath); os.IsNotExist(err) {
-		os.MkdirAll(agentAppDataPath, 0755)
-	}
-
-	// Create the configuration file if it doesn't exist
-	if _, err := os.Stat(configFileLocation); os.IsNotExist(err) {
-		// Save the configuration file, create it if it doesn't exist
-		err := v.SafeWriteConfig()
+	// Create or rewrite config.json file
+	if metaData != nil {
+		metaData, err := writeMetadataToFile(configFileLocation, metaData)
 		if err != nil {
-			fmt.Printf("Error creating config file: %v\n", err)
+			fmt.Printf("Error creating or rewriting config file: %v\n", err)
+			return nil, err // empty Metadata object
 		}
-	} else {
-		// Read the configuration file
-		err := v.ReadInConfig()
-		if err != nil {
-			fmt.Printf("Error reading config file: %v\n", err)
-		}
+		return metaData, nil
 	}
 
-	// Save changes to the configuration file
-	err := v.WriteConfigAs(configFileLocation)
+	// Read the configuration file
+	fileContent, err := ReadMetadataFromFile(configFileLocation)
 	if err != nil {
-		fmt.Printf("Error writing config file: %v\n", err)
+		fmt.Printf("Error reading config file: %v\n", err)
+		return nil, err // empty Metadata object
 	}
 
-	var config Config
-	err = v.Unmarshal(&config)
-	if err != nil {
-		panic(fmt.Errorf("unable to decode into struct, %v", err))
-	}
-
-	return config
+	return fileContent, nil
 }
