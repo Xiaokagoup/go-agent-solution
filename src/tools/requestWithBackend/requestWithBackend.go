@@ -14,7 +14,7 @@ var BACKEND_ENDPOINT string = "http://ec2-3-121-159-217.eu-central-1.compute.ama
 
 // === GetOperationCommandFromBackend - start ===
 func GetOperationCommandFromBackend() (*TOperationCommand.OneOperationCommandResponseData, error) {
-	responseDataPointer, err := TRequest.SendGETRequest(BACKEND_ENDPOINT + "/v2/agent/getMockOperationCommand")
+	responseDataPointer, err := TRequest.SendGETRequest(BACKEND_ENDPOINT + "/v2/agent/getOperationCommand")
 	if err != nil {
 		fmt.Println("GetOperationCommandFromBackend - Error:", err)
 	}
