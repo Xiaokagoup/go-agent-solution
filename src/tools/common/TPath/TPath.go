@@ -26,6 +26,8 @@ func GetAgentOriginalMetadataFilePath() (string, error) {
 			// File does not exist, set an alternative path
 			originalMetadataPath = "C:\\Users\\Administrator_ansys\\AppData\\Roaming\\.ansysCSPAgent\\original_metadata.json"
 		}
+	} else if runtime.GOOS == "darwin" {
+		originalMetadataPath = "/Users/jieanyang/Documents/freelancer_work/ansys/HelloWorldGoAgent/src/tools/TAgentMetadataManager/metadata.json" // @DEV
 	} else {
 		fmt.Println("Unsupported operating system")
 		error := errors.New("unsupported operating system")
