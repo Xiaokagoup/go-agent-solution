@@ -151,6 +151,7 @@ func (agent *Agent) RunPeriodicTask() {
 			TryTimes: responseData.Result.TryTimes,
 		}
 
+		fmt.Println("RunPeriodicTask - postResult:", postResult)
 		requestWithBackend.PostOperationCommandResultToBackend(postResult)
 		fmt.Println("RunPeriodicTask - end")
 	}

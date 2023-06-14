@@ -49,8 +49,6 @@ func RunCommandByScriptContent(scriptContent string) (string, error) {
 
 	OSNameEnum := TOS.GetOSName()
 
-	fmt.Println("RunCommandByScriptContent - scriptContent", scriptContent)
-
 	if OSNameEnum == TOS.Linux || OSNameEnum == TOS.MacOS {
 		fmt.Println("package runCommand - RunCommandByContent - Linux")
 
