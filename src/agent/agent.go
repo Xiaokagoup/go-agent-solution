@@ -13,7 +13,6 @@ import (
 	"AnsysCSPAgent/src/tools/TAgentMetadataManager"
 	"AnsysCSPAgent/src/tools/TRunCommand"
 	"AnsysCSPAgent/src/tools/common/TOperationCommand"
-	"AnsysCSPAgent/src/tools/common/TPath"
 	"AnsysCSPAgent/src/tools/requestWithBackend"
 )
 
@@ -63,15 +62,7 @@ func (agent *Agent) Launch() error {
 func (agent *Agent) Init() {
 	// === load metadata config - start ===
 
-	// Get original metadata path
-	originalMetadataPath, err := TPath.GetAgentOriginalMetadataFilePath()
-	if err != nil {
-		fmt.Println("Error getting original metadata path:", err.Error())
-		os.Exit(1) // @PROD
-	}
-
-	// Read the JSON file
-	originalMetadata, err := TAgentMetadataManager.ReadMetadataFromFile(originalMetadataPath)
+	originalMetadata, err := TAgentMetadataManager.GetOriginalMetadataFileContent()
 	if err != nil {
 		fmt.Println("Error reading original metadata file:", err.Error())
 		os.Exit(1) // @PROD

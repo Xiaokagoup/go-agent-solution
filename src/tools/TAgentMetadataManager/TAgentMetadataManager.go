@@ -9,9 +9,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"path/filepath"
-
-	"github.com/spf13/viper"
 )
 
 func main() {
@@ -81,47 +80,22 @@ func (m Metadata) String() string {
 		m.ClientId, m.CloudProvider, m.Region, m.NodeType, m.CreatedAt, m.PSK_Key)
 }
 
-// type ConfigResponseData struct {
-// 	Result Config `json:"result"`
-// }
-
-// type Config struct {
-// 	Server struct {
-// 		Host string `json:"host"`
-// 		Port int    `json:"port"`
-// 	} `json:"server"`
-// 	ConfigFileLocation string `json:"configFileLocation"`
-// 	PSK_Key            string `json:"psk_key"`
-// }
-
-// To Custimize the output of the struct Config when printing it
-// func (c Config) String() string {
-// 	return fmt.Sprintf("Host: %s, Port: %d", c.Server.Host, c.Server.Port)
-// }
-
 func GetOriginalMetadataFileContent() (*Metadata, error) {
-	osServiceManagerAppName := "ansysCSPAgentManagerService"
-	agentAppName := "ansysCSPAgent"
-	fileName := "config.json"
-
-	// Create a new instance of Viper
-	v := viper.New()
-
-	// Set the configuration file name
-	v.SetConfigFile(fileName)
-
-	// Set the default appData path for Linux, Windows, and macOS systems
-	var agentAppDataPath string = TPath.GetAgentAppDataPathByAppName(osServiceManagerAppName, agentAppName)
-	configFileLocation := filepath.Join(agentAppDataPath, fileName)
-
-	// Read the configuration file
-	fileContent, err := ReadMetadataFromFile(configFileLocation)
+	// Get original metadata path
+	originalMetadataPath, err := TPath.GetAgentOriginalMetadataFilePath()
 	if err != nil {
-		fmt.Printf("Error reading config file: %v\n", err)
-		return nil, err // empty Metadata object
+		fmt.Println("Error getting original metadata path:", err.Error())
+		os.Exit(1) // @PROD
 	}
 
-	return fileContent, nil
+	// Read the JSON file
+	originalMetadata, err := ReadMetadataFromFile(originalMetadataPath)
+	if err != nil {
+		fmt.Println("Error reading original metadata file:", err.Error())
+		os.Exit(1) // @PROD
+	}
+
+	return originalMetadata, nil
 }
 
 func GetOrCreateConfigFile(metaData *Metadata) (*Metadata, error) {
