@@ -26,7 +26,7 @@ func main() {
 		PSK_Key:       "12345678901234567890123456789012",
 	}
 
-	writeMetadataToFile(fileName, &metadatas)
+	WriteMetadataToFile(fileName, &metadatas)
 
 	fileContent, _ := ReadMetadataFromFile(fileName)
 
@@ -50,7 +50,7 @@ func ReadMetadataFromFile(filePath string) (*Metadata, error) {
 	return metadata, nil
 }
 
-func writeMetadataToFile(filePath string, metadata *Metadata) (*Metadata, error) {
+func WriteMetadataToFile(filePath string, metadata *Metadata) (*Metadata, error) {
 	// Convert the slice of Usser structs to JSON data
 	data, err := json.Marshal(metadata)
 	if err != nil {
@@ -73,6 +73,7 @@ type Metadata struct {
 	NodeType      string `json:"nodeType"`
 	CreatedAt     string `json:"createdAt"`
 	PSK_Key       string `json:"psk_key"`
+	LastRequestAt string `json:"lastRequestAt"`
 }
 
 func (m Metadata) String() string {
@@ -109,7 +110,7 @@ func GetOrCreateConfigFile(metaData *Metadata) (*Metadata, error) {
 
 	// Create or rewrite config.json file
 	if metaData != nil {
-		metaData, err := writeMetadataToFile(configFileLocation, metaData)
+		metaData, err := WriteMetadataToFile(configFileLocation, metaData)
 		if err != nil {
 			fmt.Printf("Error creating or rewriting config file: %v\n", err)
 			return nil, err // empty Metadata object

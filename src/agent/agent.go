@@ -8,11 +8,13 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"path/filepath"
 	"time"
 
 	"AnsysCSPAgent/src/tools/TAgentMetadataManager"
 	"AnsysCSPAgent/src/tools/TRunCommand"
 	"AnsysCSPAgent/src/tools/common/TOperationCommand"
+	"AnsysCSPAgent/src/tools/common/TPath"
 	"AnsysCSPAgent/src/tools/requestWithBackend"
 )
 
@@ -97,6 +99,26 @@ func RunPeriodicTask_handleBackendRequestErrorCase(paraErrorCount int, ticker *t
 		ticker.Reset(10 * time.Second)
 	}
 }
+func (agent *Agent) UpdateRequestFile() {
+	osServiceManagerAppName := "ansysCSPAgentManagerService"
+	agentAppName := "ansysCSPAgent"
+	fileName := "lastCall.json"
+
+	// Set the default appData path for Linux, Windows, and macOS systems
+	var agentAppDataPath string = TPath.GetAgentAppDataPathByAppName(osServiceManagerAppName, agentAppName)
+	configFileLocation := filepath.Join(agentAppDataPath, fileName)
+
+	// Create or rewrite config.json file
+
+	data := &TAgentMetadataManager.Metadata{
+		LastRequestAt: time.Now().Format(time.RFC3339),
+	}
+	_, err := TAgentMetadataManager.WriteMetadataToFile(configFileLocation, data)
+	if err != nil {
+		fmt.Printf("Error creating or rewriting config file: %v\n", err)
+
+	}
+}
 func (agent *Agent) RunPeriodicTask() {
 	fmt.Println("SetUp for periodic task - start")
 
@@ -111,6 +133,7 @@ func (agent *Agent) RunPeriodicTask() {
 		fmt.Println("for errorCount:", errorCount)
 
 		// Get new OperationCommand script from backend
+		agent.UpdateRequestFile() // Note last call time in lastCall.json file
 		responseData, err := requestWithBackend.GetOperationCommandFromBackend()
 		if err != nil {
 			fmt.Println("RunPeriodicTask - Error:", err)
