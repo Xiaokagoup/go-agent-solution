@@ -52,7 +52,7 @@ func (agent *Agent) Launch() error {
 	agent.Init()
 
 	// Get new OperationCommand, execute then send back result
-	// agent.RunPeriodicTask() // @Prod, block here
+	agent.RunPeriodicTask() // @Prod, block here
 
 	fmt.Println("Agent start func - end")
 
