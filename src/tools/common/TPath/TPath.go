@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"path/filepath"
 	"runtime"
 )
 
@@ -32,4 +33,25 @@ func GetAgentOriginalMetadataFilePath() (string, error) {
 	}
 
 	return originalMetadataPath, nil
+}
+
+func GetAgentAppDataPathByAppName(osServiceManagerAppName string, agentAppName string) string {
+	fmt.Println("GetAppDataPathByAppName - start")
+
+	var appDataByAppNamePath string
+	switch runtime.GOOS {
+	case "linux":
+		appDataByAppNamePath = filepath.Join("/usr/local/go", osServiceManagerAppName, agentAppName)
+	case "windows":
+		appDataByAppNamePath = filepath.Join("C:\\go", osServiceManagerAppName, agentAppName)
+	case "darwin":
+		appDataByAppNamePath = filepath.Join(os.Getenv("HOME"), "Library", "Application Support", osServiceManagerAppName, agentAppName)
+	default:
+		fmt.Println("Unsupported operating system")
+		os.Exit(1)
+	}
+
+	fmt.Println("GetAppDataPathByAppName:", appDataByAppNamePath)
+
+	return appDataByAppNamePath
 }

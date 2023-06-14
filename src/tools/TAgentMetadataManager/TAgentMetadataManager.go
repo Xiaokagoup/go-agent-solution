@@ -5,12 +5,12 @@
 package TAgentMetadataManager
 
 import (
+	"AnsysCSPAgent/src/tools/common/TPath"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"runtime"
 
 	"github.com/spf13/viper"
 )
@@ -78,27 +78,6 @@ type Metadata struct {
 	PSK_Key       string `json:"psk_key"`
 }
 
-func GetAgentAppDataPathByAppName(osServiceManagerAppName string, agentAppName string) string {
-	fmt.Println("GetAppDataPathByAppName - start")
-
-	var appDataByAppNamePath string
-	switch runtime.GOOS {
-	case "linux":
-		appDataByAppNamePath = filepath.Join("/usr/local/go", osServiceManagerAppName, agentAppName)
-	case "windows":
-		appDataByAppNamePath = filepath.Join("C:\\go", osServiceManagerAppName, agentAppName)
-	case "darwin":
-		appDataByAppNamePath = filepath.Join(os.Getenv("HOME"), "Library", "Application Support", osServiceManagerAppName, agentAppName)
-	default:
-		fmt.Println("Unsupported operating system")
-		os.Exit(1)
-	}
-
-	fmt.Println("GetAppDataPathByAppName:", appDataByAppNamePath)
-
-	return appDataByAppNamePath
-}
-
 type ConfigResponseData struct {
 	Result Config `json:"result"`
 }
@@ -129,7 +108,7 @@ func GetConfigFileContent() (Config, error) {
 	v.SetConfigFile(fileName)
 
 	// Set the default appData path for Linux, Windows, and macOS systems
-	var agentAppDataPath string = GetAgentAppDataPathByAppName(osServiceManagerAppName, agentAppName)
+	var agentAppDataPath string = TPath.GetAgentAppDataPathByAppName(osServiceManagerAppName, agentAppName)
 	configFileLocation := filepath.Join(agentAppDataPath, fileName)
 
 	// Set the configuration file name with the full path
@@ -164,7 +143,7 @@ func GetOrCreateConfigFileWithSpecifiedPskKey(pskKey string) Config {
 	v.SetConfigFile(fileName)
 
 	// Set the default appData path for Linux, Windows, and macOS systems
-	var agentAppDataPath string = GetAgentAppDataPathByAppName(osServiceManagerAppName, agentAppName)
+	var agentAppDataPath string = TPath.GetAgentAppDataPathByAppName(osServiceManagerAppName, agentAppName)
 	configFileLocation := filepath.Join(agentAppDataPath, fileName)
 
 	// Set the configuration file name with the full path
