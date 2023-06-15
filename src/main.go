@@ -6,9 +6,6 @@ package main
 
 import (
 	"fmt"
-	"os"
-
-	"github.com/joho/godotenv"
 
 	agt "AnsysCSPAgent/src/agent"
 )
@@ -32,15 +29,6 @@ import (
 func main() {
 	fmt.Println("Program main func - start")
 
-	err := godotenv.Load()
-	if err != nil {
-		fmt.Println("Error loading .env file")
-	}
-
-	host := os.Getenv("HOST")
-	fmt.Println("host", host)
-
-	fmt.Println("Hello World !")
 	agent := agt.NewAgent()
 
 	agent.Launch()
