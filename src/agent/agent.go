@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"time"
 
@@ -108,10 +109,18 @@ func (agent *Agent) UpdateRequestFile() {
 	var agentAppDataPath string = TPath.GetAgentAppDataPathByAppName(osServiceManagerAppName, agentAppName)
 	configFileLocation := filepath.Join(agentAppDataPath, fileName)
 
-	// Create or rewrite config.json file
+	// Get PID
+	cmd := exec.Command("sleep", "5")
+	errCmd := cmd.Start()
+	if errCmd != nil {
+		fmt.Printf("Error starting command: %s", errCmd)
+		os.Exit(1)
+	}
 
+	// Create or rewrite config.json file
 	data := &TAgentMetadataManager.Metadata{
 		LastRequestAt: time.Now().Format(time.RFC3339),
+		PID:           cmd.Process.Pid,
 	}
 	_, err := TAgentMetadataManager.WriteMetadataToFile(configFileLocation, data)
 	if err != nil {
