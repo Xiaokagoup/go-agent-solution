@@ -74,7 +74,6 @@ type Metadata struct {
 	CreatedAt     string `json:"createdAt"`
 	PSK_Key       string `json:"psk_key"`
 	LastRequestAt string `json:"lastRequestAt"`
-	PID           int    `json:"pid"`
 }
 
 func (m Metadata) String() string {
