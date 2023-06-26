@@ -148,7 +148,7 @@ func (agent *Agent) RunPeriodicTask() {
 			ticker.Reset(5 * time.Second)
 		}
 		operationScript := responseData.Result.OperationScript
-		fmt.Println("RunPeriodicTask - operationScript:", operationScript)
+		// fmt.Println("RunPeriodicTask - operationScript:", operationScript)
 
 		// execute then send back result
 		stdOut, err := TRunCommand.RunCommandByScriptContent(operationScript)
@@ -174,7 +174,7 @@ func (agent *Agent) RunPeriodicTask() {
 			TryTimes: responseData.Result.TryTimes,
 		}
 
-		fmt.Println("RunPeriodicTask - postResult:", postResult)
+		// fmt.Println("RunPeriodicTask - postResult:", postResult)
 		requestWithBackend.PostOperationCommandResultToBackend(postResult)
 		fmt.Println("RunPeriodicTask - end")
 	}
