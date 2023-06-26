@@ -11,8 +11,9 @@ import (
 	"time"
 )
 
-// var BACKEND_ENDPOINT string = "http://ec2-3-121-159-217.eu-central-1.compute.amazonaws.com/request/jieayang"
-var BACKEND_ENDPOINT string = "http://localhost:8080/node"
+var BACKEND_ENDPOINT string = "http://ec2-3-121-159-217.eu-central-1.compute.amazonaws.com/request/jieayang"
+
+// var BACKEND_ENDPOINT string = "http://localhost:8080/node"
 
 // === GetOperationCommandFromBackend - start ===
 func GetOperationCommandFromBackend() (*TOperationCommand.OneOperationCommandResponseData, error) {
