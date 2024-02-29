@@ -1,210 +1,190 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "description": "This is a sample server celler server.",
-        "title": "HellowWorldGoAgent API",
-        "termsOfService": "http://swagger.io/terms/",
-        "contact": {
-            "name": "API Support",
-            "url": "http://www.swagger.io/support",
-            "email": "support@swagger.io"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        },
-        "version": "1.0"
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a sample server celler server.",
+    "title": "HellowWorldGoAgent API",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "name": "API Support",
+      "url": "http://www.swagger.io/support",
+      "email": "support@swagger.io"
     },
-    "host": "localhost:9001",
-    "basePath": "/",
-    "paths": {
-        "/Exit": {
-            "get": {
-                "description": "Exit the agent",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Exit the agent",
-                "responses": {
-                    "201": {
-                        "description": "The object was created successfully",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request body",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "Failed to create object",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/RunCommandByScriptContent": {
-            "post": {
-                "description": "description",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Run command using script content",
-                "parameters": [
-                    {
-                        "description": "param for RunCommandByScriptContent",
-                        "name": "object",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/agentHttpController.RequestDataForRunCommandByScriptContent"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "The object was created successfully",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request body",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "Failed to create object",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/RunCommandWithUrl": {
-            "post": {
-                "description": "description",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Run command using url",
-                "parameters": [
-                    {
-                        "description": "param for RunCommandWithUrl",
-                        "name": "object",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/agentHttpController.RequestDataForRunCommandByUrl"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "The object was created successfully",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request body",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "Failed to create object",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/dev/getAppConfig": {
-            "get": {
-                "description": "Get origin metadata json",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Get origin metadata json",
-                "responses": {
-                    "201": {
-                        "description": "The object was created successfully",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request body",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "Failed to create object",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/dev/test": {
-            "get": {
-                "description": "Test",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Test",
-                "responses": {}
-            }
-        }
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "definitions": {
-        "agentHttpController.RequestDataForRunCommandByScriptContent": {
-            "type": "object",
-            "properties": {
-                "scriptContent": {
-                    "type": "string",
-                    "default": "#!/bin/bash\necho \"start\"\necho \"hello yang\"\necho \"end\""
-                }
+    "version": "1.0"
+  },
+  "host": "localhost:9001",
+  "basePath": "/",
+  "paths": {
+    "/Exit": {
+      "get": {
+        "description": "Exit the agent",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "summary": "Exit the agent",
+        "responses": {
+          "201": {
+            "description": "The object was created successfully",
+            "schema": {
+              "type": "string"
             }
-        },
-        "agentHttpController.RequestDataForRunCommandByUrl": {
-            "type": "object",
-            "properties": {
-                "url": {
-                    "type": "string",
-                    "default": "https://ansys-gateway-development.s3.eu-west-3.amazonaws.com/2023-02-27-linux-script.sh"
-                }
+          },
+          "400": {
+            "description": "Invalid request body",
+            "schema": {
+              "type": "string"
             }
+          },
+          "500": {
+            "description": "Failed to create object",
+            "schema": {
+              "type": "string"
+            }
+          }
         }
+      }
     },
-    "securityDefinitions": {
-        "BasicAuth": {
-            "type": "basic"
+    "/RunCommandByScriptContent": {
+      "post": {
+        "description": "description",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "summary": "Run command using script content",
+        "parameters": [
+          {
+            "description": "param for RunCommandByScriptContent",
+            "name": "object",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/agentHttpController.RequestDataForRunCommandByScriptContent"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The object was created successfully",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "400": {
+            "description": "Invalid request body",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "500": {
+            "description": "Failed to create object",
+            "schema": {
+              "type": "string"
+            }
+          }
         }
+      }
+    },
+    "/RunCommandWithUrl": {
+      "post": {
+        "description": "description",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "summary": "Run command using url",
+        "parameters": [
+          {
+            "description": "param for RunCommandWithUrl",
+            "name": "object",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/agentHttpController.RequestDataForRunCommandByUrl"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The object was created successfully",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "400": {
+            "description": "Invalid request body",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "500": {
+            "description": "Failed to create object",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/dev/getAppConfig": {
+      "get": {
+        "description": "Get origin metadata json",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "summary": "Get origin metadata json",
+        "responses": {
+          "201": {
+            "description": "The object was created successfully",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "400": {
+            "description": "Invalid request body",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "500": {
+            "description": "Failed to create object",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/dev/test": {
+      "get": {
+        "description": "Test",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "summary": "Test",
+        "responses": {}
+      }
     }
+  },
+  "definitions": {
+    "agentHttpController.RequestDataForRunCommandByScriptContent": {
+      "type": "object",
+      "properties": {
+        "scriptContent": {
+          "type": "string",
+          "default": "#!/bin/bash\necho \"start\"\necho \"hello yang\"\necho \"end\""
+        }
+      }
+    },
+    "agentHttpController.RequestDataForRunCommandByUrl": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "default": "https://xiaoka-development.s3.eu-west-3.amazonaws.com/2023-02-27-linux-script.sh"
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "BasicAuth": {
+      "type": "basic"
+    }
+  }
 }

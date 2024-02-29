@@ -36,7 +36,7 @@ func RunCommandTest() []byte {
 
 	if OSNameEnum == Linux || OSNameEnum == MacOS {
 		fmt.Println("package runCommand - RunCommand - Linux")
-		cmd := exec.Command("sh", "-c", "/Users/jieanyang/Documents/freelancer_work/ansys/HelloWorldGoAgent/src/common/runCommand/script.sh")
+		cmd := exec.Command("sh", "-c", "/Users/jieanyang/Documents/freelancer_work/Xiaokatech/HelloWorldGoAgent/src/common/runCommand/script.sh")
 		output, err := cmd.CombinedOutput()
 
 		if err != nil {
@@ -51,8 +51,8 @@ func RunCommandTest() []byte {
 
 	if OSNameEnum == Windows {
 		fmt.Println("package runCommand - RunCommand - Windows")
-		// cmd := exec.Command("cmd", "/C", "C:\\Users\\jieanyang\\Documents\\freelancer_work\\ansys\\HelloWorldGoAgent\\src\\common\\runCommand\\script.bat")
-		cmd := exec.Command("powershell.exe", "/Users/jieanyang/Documents/freelancer_work/ansys/HelloWorldGoAgent/src/common/runCommand/2023-02-27-first_script.ps1")
+		// cmd := exec.Command("cmd", "/C", "C:\\Users\\jieanyang\\Documents\\freelancer_work\\Xiaokatech\\HelloWorldGoAgent\\src\\common\\runCommand\\script.bat")
+		cmd := exec.Command("powershell.exe", "/Users/jieanyang/Documents/freelancer_work/Xiaokatech/HelloWorldGoAgent/src/common/runCommand/2023-02-27-first_script.ps1")
 		output, err := cmd.CombinedOutput()
 
 		if err != nil {
@@ -90,7 +90,7 @@ func RunCommandByScriptContent(scriptContent string) (string, error) {
 
 	if OSNameEnum == Windows {
 		fmt.Println("package runCommand - RunCommand - Windows")
-		// cmd := exec.Command("cmd", "/C", "C:\\Users\\jieanyang\\Documents\\freelancer_work\\ansys\\HelloWorldGoAgent\\src\\common\\runCommand\\script.bat")
+		// cmd := exec.Command("cmd", "/C", "C:\\Users\\jieanyang\\Documents\\freelancer_work\\Xiaokatech\\HelloWorldGoAgent\\src\\common\\runCommand\\script.bat")
 		cmd := exec.Command("powershell.exe", scriptContent)
 		output, err := cmd.CombinedOutput()
 

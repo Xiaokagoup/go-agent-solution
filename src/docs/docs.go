@@ -203,7 +203,7 @@ const docTemplate = `{
             "properties": {
                 "url": {
                     "type": "string",
-                    "default": "https://ansys-gateway-development.s3.eu-west-3.amazonaws.com/2023-02-27-linux-script.sh"
+                    "default": "https://xiaoka-development.s3.eu-west-3.amazonaws.com/2023-02-27-linux-script.sh"
                 }
             }
         }

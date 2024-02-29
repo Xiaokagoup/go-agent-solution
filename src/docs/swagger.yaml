@@ -13,7 +13,7 @@ definitions:
   agentHttpController.RequestDataForRunCommandByUrl:
     properties:
       url:
-        default: https://ansys-gateway-development.s3.eu-west-3.amazonaws.com/2023-02-27-linux-script.sh
+        default: https://xiaoka-development.s3.eu-west-3.amazonaws.com/2023-02-27-linux-script.sh
         type: string
     type: object
 host: localhost:9001
@@ -33,10 +33,10 @@ paths:
   /Exit:
     get:
       consumes:
-      - application/json
+        - application/json
       description: Exit the agent
       produces:
-      - application/json
+        - application/json
       responses:
         "201":
           description: The object was created successfully
@@ -54,17 +54,17 @@ paths:
   /RunCommandByScriptContent:
     post:
       consumes:
-      - application/json
+        - application/json
       description: description
       parameters:
-      - description: param for RunCommandByScriptContent
-        in: body
-        name: object
-        required: true
-        schema:
-          $ref: '#/definitions/agentHttpController.RequestDataForRunCommandByScriptContent'
+        - description: param for RunCommandByScriptContent
+          in: body
+          name: object
+          required: true
+          schema:
+            $ref: "#/definitions/agentHttpController.RequestDataForRunCommandByScriptContent"
       produces:
-      - application/json
+        - application/json
       responses:
         "201":
           description: The object was created successfully
@@ -82,17 +82,17 @@ paths:
   /RunCommandWithUrl:
     post:
       consumes:
-      - application/json
+        - application/json
       description: description
       parameters:
-      - description: param for RunCommandWithUrl
-        in: body
-        name: object
-        required: true
-        schema:
-          $ref: '#/definitions/agentHttpController.RequestDataForRunCommandByUrl'
+        - description: param for RunCommandWithUrl
+          in: body
+          name: object
+          required: true
+          schema:
+            $ref: "#/definitions/agentHttpController.RequestDataForRunCommandByUrl"
       produces:
-      - application/json
+        - application/json
       responses:
         "201":
           description: The object was created successfully
@@ -110,10 +110,10 @@ paths:
   /dev/getAppConfig:
     get:
       consumes:
-      - application/json
+        - application/json
       description: Get origin metadata json
       produces:
-      - application/json
+        - application/json
       responses:
         "201":
           description: The object was created successfully
@@ -131,10 +131,10 @@ paths:
   /dev/test:
     get:
       consumes:
-      - application/json
+        - application/json
       description: Test
       produces:
-      - application/json
+        - application/json
       responses: {}
       summary: Test
 securityDefinitions:
