@@ -13,7 +13,7 @@ func main() {
 	ch := createNewChannel(conn)
 	defer ch.Close()
 
-	q := declareQueueInChannel(ch, "ansysAgentQueue")
+	q := declareQueueInChannel(ch, "xiaokaAgentQueue")
 
 	publishMessageToQueue(ch, q, "Agent-3 Hello World Yang !")
 	// consumeMessageFromQueue(ch, q)
